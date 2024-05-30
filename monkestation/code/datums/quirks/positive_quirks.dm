@@ -121,7 +121,7 @@
 	name = "Bright Eyes"
 	desc = "You've got bright, cybernetic eyes!"
 	icon = FA_ICON_EYE
-	value = 0
+	value = 3
 	medical_record_text = "Patient has acquired and been installed with high luminosity eyes."
 	// hardcore_value = 0
 	quirk_flags = QUIRK_HUMAN_ONLY|QUIRK_CHANGES_APPEARANCE
@@ -154,7 +154,7 @@
 	name = "Neuralinked"
 	desc = "You've been installed with an NT 1.0 cyberlink!"
 	icon = ""
-	value = 0
+	value = 3
 	medical_record_text = "Patient has acquired and been installed with a NT 1.0 Cyberlink."
 	// hardcore_value = 0
 	gain_text = span_notice("You feel robotic.")
@@ -177,7 +177,7 @@
 	name = "Hosed"
 	desc = "You've got a cybernetic breathing tube implant!"
 	icon = ""
-	value = 0
+	value = 3
 	medical_record_text = "Patient has been installed with a breathing tube implant."
 	// hardcore_value = 0
 	gain_text = span_notice("You can breathe easier!")
