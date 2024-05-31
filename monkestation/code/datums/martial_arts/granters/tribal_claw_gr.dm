@@ -18,7 +18,7 @@
 	. = ..()
 	update_appearance()
 
-/obj/item/book/granter/martial/carp/update_appearance(updates)
+/obj/item/book/granter/martial/tribal_claw/update_appearance(updates)
 	. = ..()
 	if(uses <= 0)
 		name = "empty scroll"
@@ -29,14 +29,10 @@
 		desc = initial(desc)
 		icon_state = initial(icon_state)
 
-
-//can't get this function to work yet. take a look at it AFTER.
-/*
-/obj/item/book/granter/martial/tribal_claw/already_known(mob/user)
-	if(islizard(user))
+/obj/item/book/granter/martial/tribal_claw/can_learn(mob/user)
+	if(!islizard(user))
+		to_chat(user, "<span class='warning'>You try to read the scroll but can't comprehend any of it.</span>")
 		return FALSE
 	else
-		to_chat(user, "<span class='warning'>You try to read the scroll but can't comprehend any of it.</span>")
 		return TRUE
 
-*/

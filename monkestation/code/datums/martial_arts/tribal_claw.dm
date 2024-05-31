@@ -56,24 +56,23 @@
 Jugular Cut, can only be done if the target is in crit, being held in a tier 3 grab by the user or if they are sleeping.
 Deals 15 brute to head(reduced by armor) and causes a rapid bleeding effect similar to throat slicing someone with a sharp item.
 */
-//LIES!! eh not really. I made it apply the throat slitting status effect.
+//LIES!! TG completely FUCKED throat slitting and it's EXTREMELY DIFFICULT to replicate. This absolutely sucked to code.
 
-/datum/martial_art/tribal_claw/proc/jugularCut(mob/living/carbon/human/attacker, mob/living/carbon/human/target)
+
+/datum/martial_art/tribal_claw/proc/jugularCut(mob/living/carbon/attacker, mob/living/carbon/target)
 	var/def_check = target.getarmor(BODY_ZONE_HEAD, MELEE)
 	if((target.health <= target.crit_threshold || (attacker.pulling == target && attacker.grab_state >= GRAB_NECK) || target.IsSleeping()))
 		log_combat(attacker, target, "jugular cut (Tribal Claw)", name)
 		target.visible_message("<span class='warning'>[attacker] cuts [target]'s jugular vein with their claws!</span>", \
 							"<span class='userdanger'>[attacker] cuts your jugular vein!</span>")
 		target.apply_damage(15, BRUTE, BODY_ZONE_HEAD, def_check)
-
-		//incompatible with TG's status efffects and medical. not quite sure of the replacements. Highly likely this causes issues in the future.
-		//target.bleed_rate = clamp(target.bleed_rate + 20, 0, 30)
-		target.apply_status_effect(/datum/status_effect/wound/slash/flesh/critical)
+		target.apply_status_effect(/datum/status_effect/neck_slice)
 		attacker.do_attack_animation(target, ATTACK_EFFECT_CLAW)
 		playsound(get_turf(target), 'sound/weapons/slash.ogg', 50, 1, -1)
 	else
 		//the original code says that this should be a basic attack instead, but not quite sure I could get that to work without fanangling
 		return MARTIAL_ATTACK_FAIL
+
 
 //Tail Grab, instantly puts your target in a T3 grab and makes them unable to talk for a short time.
 /datum/martial_art/tribal_claw/proc/tailGrab(mob/living/carbon/human/attacker, mob/living/carbon/human/target)
