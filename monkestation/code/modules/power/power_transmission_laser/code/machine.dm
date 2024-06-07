@@ -306,7 +306,6 @@
 #define MINIMUM_BAR 25
 #define PROCESS_CAP 5000000 - MINIMUM_BAR
 
-//find an exponential curve for this PLEASE
 #define A1_CURVE 4
 
 /obj/machinery/power/transmission_laser/proc/sell_power(power_amount)
