@@ -61,12 +61,16 @@ Deals 15 brute to head(reduced by armor) and causes a rapid bleeding effect simi
 
 /datum/martial_art/tribal_claw/proc/jugularCut(mob/living/carbon/attacker, mob/living/carbon/target)
 	var/def_check = target.getarmor(BODY_ZONE_HEAD, MELEE)
+	var/wound_type = /datum/wound/slash/flesh/critical
+	var/obj/item/bodypart/head = target.get_bodypart(BODY_ZONE_HEAD)
+	var/datum/wound/slash/flesh/jugcut = new wound_type()
+
 	if((target.health <= target.crit_threshold || (attacker.pulling == target && attacker.grab_state >= GRAB_NECK) || target.IsSleeping()))
 		log_combat(attacker, target, "jugular cut (Tribal Claw)", name)
 		target.visible_message("<span class='warning'>[attacker] cuts [target]'s jugular vein with their claws!</span>", \
 							"<span class='userdanger'>[attacker] cuts your jugular vein!</span>")
 		target.apply_damage(15, BRUTE, BODY_ZONE_HEAD, def_check)
-		target.apply_status_effect(/datum/status_effect/neck_slice)
+		jugcut.apply_wound(head)
 		attacker.do_attack_animation(target, ATTACK_EFFECT_CLAW)
 		playsound(get_turf(target), 'sound/weapons/slash.ogg', 50, 1, -1)
 	else
@@ -78,7 +82,7 @@ Deals 15 brute to head(reduced by armor) and causes a rapid bleeding effect simi
 /datum/martial_art/tribal_claw/proc/tailGrab(mob/living/carbon/human/attacker, mob/living/carbon/human/target)
 	log_combat(attacker, target, "tail grabbed (Tribal Claw)", name)
 	target.visible_message("<span class='warning'>[attacker] grabs [target] with their tail!</span>", \
-						"<span class='userdanger'>[attacker] grabs you with their tail!</span>")
+						"<span class='userdanger'>[attacker] grabs you with their tail!6</span>")
 	target.grabbedby(attacker, 1)
 	target.Knockdown(5) //Without knockdown target still stands up while T3 grabbed.
 	attacker.setGrabState(GRAB_NECK)
