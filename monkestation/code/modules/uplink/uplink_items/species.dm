@@ -23,3 +23,9 @@
 	item = /obj/vehicle/ridden/monkey_ball
 	restricted_species = list(SPECIES_SIMIAN)
 
+/datum/uplink_item/race_restricted/tribal_claw_scroll
+	name = "Silver-Scale Scroll"
+	desc = "A scroll with ancient heritage. It can teach the user the secrets of Tribal Claw, an offensive martial art reliant on one's claws and tail."
+	cost = 10
+	item = /obj/item/book/granter/martial/tribal_claw
+	restricted_species = list(SPECIES_LIZARD)
