@@ -306,7 +306,7 @@
 #define MINIMUM_BAR 25
 #define PROCESS_CAP 5000000 - MINIMUM_BAR
 
-#define A1_CURVE 4
+#define A1_CURVE 70
 
 /obj/machinery/power/transmission_laser/proc/sell_power(power_amount)
 	var/mw_power = power_amount / (1 MW)
