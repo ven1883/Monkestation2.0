@@ -3,8 +3,8 @@
 	name = "old scroll"
 	martial_name = "tribal claw"
 	desc = "A scroll filled with ancient draconic markings."
-	greet = "<span class='sciradio'>You have learned the ancient martial art of the Tribal Claw! You are now able to use your tail and claws in a fight much better than before. \
-	Check the combos you are now able to perform using the Recall Teachings verb in the Tribal Claw tab</span>"
+	greet = span_sciradio("You have learned the ancient martial art of the Tribal Claw! You are now able to use your tail and claws in a fight much better than before. \
+	Check the combos you are now able to perform using the Recall Teachings verb in the Tribal Claw tab")
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "scroll2"
 	remarks = list("I must prove myself worthy to the masters of the Knoises clan...",
@@ -31,7 +31,7 @@
 
 /obj/item/book/granter/martial/tribal_claw/can_learn(mob/user)
 	if(!islizard(user))
-		to_chat(user, "<span class='warning'>You try to read the scroll but can't comprehend any of it.</span>")
+		to_chat(user, span_warning("You try to read the scroll but can't comprehend any of it."))
 		return FALSE
 	else
 		return TRUE
