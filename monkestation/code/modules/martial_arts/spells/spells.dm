@@ -1,8 +1,8 @@
 
 //tribal claw
-/datum/action/cooldown/spell/aoe/repulse/martial
-	name = "Tail Sweep"
-	desc = "Throw back attackers with a sweep of your tail."
+/datum/action/cooldown/spell/aoe/repulse/martial/lizard
+	name = "martial Tail Sweep"
+	desc = "You should probably tell an admin if you can see this."
 	background_icon_state = "bg_alien"
 	overlay_icon_state = "bg_alien_border"
 	button_icon = 'icons/mob/actions/actions_xeno.dmi'
@@ -10,7 +10,7 @@
 	panel = "Alien"
 	sound = 'sound/magic/tail_swing.ogg'
 
-	//cooldown_time = 15 SECONDS
+	cooldown_time = 0
 	spell_requirements = NONE
 
 	check_flags = AB_CHECK_CONSCIOUS | AB_CHECK_INCAPACITATED
