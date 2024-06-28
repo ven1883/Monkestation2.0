@@ -120,7 +120,7 @@
 /datum/quirk/bright_eyes
 	name = "Bright Eyes"
 	desc = "You've got bright, cybernetic eyes!"
-	icon = FA_ICON_EYE
+	icon = FA_ICON_SUN
 	value = 3
 	medical_record_text = "Patient has acquired and been installed with high luminosity eyes."
 	// hardcore_value = 0
