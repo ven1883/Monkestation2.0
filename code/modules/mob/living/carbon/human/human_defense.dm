@@ -29,8 +29,8 @@
 	for(var/obj/item/clothing/clothing_item in covering_clothing)
 		if(clothing_item.body_parts_covered & def_zone.body_part)
 			protection *= (100 - min(clothing_item.get_armor_rating(damage_type), 100)) * 0.01
-	//monkestation edit start
 	protection *= (100 - min(physiology.armor.get_rating(damage_type), 100)) / 100
+	//monkestation edit start
 	protection *= isnull(inherent_armor_rating) ? 1 : (100 - inherent_armor_rating) / 100
 	//end monkeststation edit: now checks src.armor so you can give characters inherent armor without targeting physiology or generating clothing
 	//you can use this with "target.set_armor" and it will work on live creatures
