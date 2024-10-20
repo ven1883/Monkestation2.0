@@ -101,7 +101,7 @@ If the target is T3 grabbed or sleeping, instead deal 60 damage with a weeping a
 				break
 
 	if((defender.health <= defender.crit_threshold || (attacker.pulling == defender && attacker.grab_state >= GRAB_NECK) || defender.IsSleeping()) && !is_jugcut) {
-		log_combat(attacker, defender, "jugular gored (Tribal Claw)", name)
+		log_combat(attacker, defender, "strong jugular cut (Tribal Claw)", name)
 		defender.apply_damage(60, BRUTE, BODY_ZONE_HEAD, def_check)
 		defender.visible_message(span_warning("[attacker] tears out [defender]'s throat with their tail!"), \
 						span_userdanger("[attacker] tears out your throat with their tail!"))
@@ -159,6 +159,6 @@ If the target is T3 grabbed or sleeping, instead deal 60 damage with a weeping a
 	to_chat(usr, "<b><i>You retreat inward and recall the teachings of the Tribal Claw...</i></b>")
 
 	to_chat(usr, span_notice("Tail Sweep</span>: Disarm Harm. Pushes everyone around you away and knocks them down."))
-	to_chat(usr, span_notice("Face Scratch</span>: Harm Harm. Damages your defender's head and confuses them for a short time."))
-	to_chat(usr, span_notice("Jugular Cut</span>: Harm Disarm. Causes your defender to rapidly lose blood, works only if you grab your defender by their neck, if they are sleeping, or in critical condition."))
-	to_chat(usr, span_notice("Tail Grab</span>: Disarm Disarm Grab. Grabs your defender by their neck and makes them unable to talk for a short time."))
+	to_chat(usr, span_notice("Face Scratch</span>: Harm Harm. Damages your target's head and confuses them for a short time."))
+	to_chat(usr, span_notice("Jugular Cut</span>: Harm Disarm. Causes your target to rapidly lose blood, works only if you grab your target by their neck, if they are sleeping, or in critical condition."))
+	to_chat(usr, span_notice("Tail Grab</span>: Disarm Disarm Grab. Grabs your target by their neck and makes them unable to talk for a short time."))
