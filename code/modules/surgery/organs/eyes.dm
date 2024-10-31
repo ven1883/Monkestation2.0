@@ -754,6 +754,8 @@
 	desc = "Large orange orbs."
 	icon = 'icons/obj/medical/organs/nabber_organs.dmi'
 	icon_state = "eyes"
+	overlay_ignore_lighting = TRUE
+	eye_icon_state = "nabber_eyes"
 
 /obj/item/organ/internal/eyes/nabber/on_insert(mob/living/carbon/eye_owner)
 	. = ..()

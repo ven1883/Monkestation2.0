@@ -5,15 +5,17 @@
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP
 	sexes = TRUE
 	inherent_biotypes = MOB_ORGANIC | MOB_HUMANOID | MOB_BUG | MOB_REPTILE
-	species_traits = list(
-		MUTCOLORS,
-		EYECOLOR,
-		NO_UNDERWEAR,
-		NOZOMBIE, //Breaks things majorly if they get zombified. Will try to fix in time.
-		NO_DNA_COPY //Cannot be cloned, body too big.
-	)
-	/datum/species/nabber //If Hard_soles is detected, apply it to their inherent_traits. Cross-Testmerge compatability!
+	// species_traits = list(
+	// 	MUTCOLORS,
+	// 	EYECOLOR,
+	// 	NO_UNDERWEAR,
+	// 	NOZOMBIE, //Breaks things majorly if they get zombified. Will try to fix in time.
+	// 	NO_DNA_COPY //Cannot be cloned, body too big.
+	// )
+	// /datum/species/nabber //If Hard_soles is detected, apply it to their inherent_traits. Cross-Testmerge compatability!
 	inherent_traits = list(
+		TRAIT_NO_UNDERWEAR,
+		TRAIT_MUTANT_COLORS,
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_PUSHIMMUNE, //You aint pushing it, chief.
 		// TRAIT_LIGHT_STEP,	//Can't wear shoes This is also probably on the tail
@@ -45,11 +47,11 @@
 
 
 	species_cookie = /obj/item/food/meat/slab //They like meat
-	meat = /obj/item/food/meat/slab/human/mutant/lizard //This needs to be updated
-	skinned_type = /obj/item/stack/sheet/animalhide/lizard
-	exotic_bloodtype = /datum/blood_type/crew/lizard
-	inert_mutation = /datum/mutation/human/firebreath
+	meat = /obj/item/food/meat/slab/spider //This needs to be updated
+	// skinned_type = /obj/item/stack/sheet/animalhide/lizard
+	exotic_bloodtype = /datum/blood_type/crew/nabber
+	// inert_mutation = /datum/mutation/human/firebreath
 	death_sound = 'sound/voice/lizard/deathsound.ogg'
 	species_language_holder = /datum/language_holder/lizard
-	digitigrade_customization = DIGITIGRADE_FORCED //Monkes
+	// digitigrade_customization = DIGITIGRADE_FORCED //Monkes
 
