@@ -55,3 +55,6 @@
 	species_language_holder = /datum/language_holder/lizard
 	// digitigrade_customization = DIGITIGRADE_FORCED //Monkes
 
+//There is no god here
+/datum/species/nabber/get_species_description()
+    return "There is no god here"
