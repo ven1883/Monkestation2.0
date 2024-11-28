@@ -96,9 +96,10 @@ If the target is T3 grabbed or sleeping, instead deal 60 damage with a weeping a
 	//balance feature, prevents damage bonus
 	if(LAZYLEN(head?.wounds) > 0)
 		for(var/i in head.wounds)
-			if (i == critical_wound_type)
+			if (istype(i, critical_wound_type))
 				is_jugcut = TRUE
 				break
+			else is_jugcut = FALSE
 
 	if((defender.health <= defender.crit_threshold || (attacker.pulling == defender && attacker.grab_state >= GRAB_NECK) || defender.IsSleeping()) && !is_jugcut) {
 		log_combat(attacker, defender, "strong jugular cut (Tribal Claw)", name)
