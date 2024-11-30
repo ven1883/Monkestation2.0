@@ -210,32 +210,6 @@
 	playsound(khan_user, 'monkestation/sound/effects/miss.ogg', vol = 50, vary = TRUE, extrarange = SHORT_RANGE_SOUND_EXTRARANGE)
 	return COMPONENT_NO_AFTERATTACK
 
-/*
-/datum/martial_art/the_tunnel_arts/proc/check_block(mob/living/khan_user, atom/movable/hitby, damage, attack_text, attack_type, ...)
-	SIGNAL_HANDLER
-
-	if(!check_usability(khan_user) || !khan_user.throw_mode || khan_user.incapacitated(IGNORE_GRAB))
-		return NONE
-	if(attack_type == PROJECTILE_ATTACK)
-		return NONE
-	if(!prob(block_chance))
-		return NONE
-
-	var/mob/living/attacker = GET_ASSAILANT(hitby)
-	if(istype(attacker) && khan_user.Adjacent(attacker))
-		khan_user.visible_message(
-			span_danger("[khan_user] blocks [attack_text] and twists [attacker]'s arm behind [attacker.p_their()] back!"),
-			span_userdanger("You block [attack_text]!"),
-		)
-		attacker.Stun(4 SECONDS)
-	else
-		khan_user.visible_message(
-			span_danger("[khan_user] blocks [attack_text]!"),
-			span_userdanger("You block [attack_text]!"),
-		)
-	return SUCCESSFUL_BLOCK
-*/
-
 /// Verb added to humans who learn the tunnel arts.
 /mob/living/proc/tunnel_arts_help()
 	set name = "Remember the Arts"
