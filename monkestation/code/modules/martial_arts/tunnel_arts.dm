@@ -12,7 +12,7 @@
 	help_verb = /mob/living/proc/tunnel_arts_help
 	display_combos = TRUE
 	/// List of traits applied to users of this martial art.
-	var/list/tunnel_traits = list(TRAIT_HARDLY_WOUNDED, TRAIT_NOSOFTCRIT, TRAIT_BATON_RESISTANCE, TRAIT_PERFECT_ATTACKER)
+	var/list/tunnel_traits = list(TRAIT_HARDLY_WOUNDED, TRAIT_NOSOFTCRIT, TRAIT_BATON_RESISTANCE, TRAIT_PERFECT_ATTACKER, TRAIT_NOGUNS)
 	/// Probability of successfully blocking attacks while on throw mode
 	block_chance = 50
 
