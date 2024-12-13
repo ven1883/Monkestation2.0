@@ -2,7 +2,7 @@
 	martial = /datum/martial_art/the_tunnel_arts
 	name = "odd scroll"
 	martial_name = "tunnel arts"
-	desc = "A scroll made up of torn books, scrwaled with gray crayon."
+	desc = "A scroll made up of torn books, scrawled with gray crayon."
 	greet = span_sciradio("You can visualize how you and your kind will one day rule the spinward sector with a gray fist. You've learned The Tunnel Arts. You can review what you've learned at any time within The Tunnel Arts tab.")
 	icon = 'icons/obj/scrolls.dmi'
 	icon_state = "scroll-ancient"
