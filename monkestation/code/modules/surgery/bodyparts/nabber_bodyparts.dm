@@ -41,7 +41,7 @@
 	composition_effects = list(TRAIT_COLD_BLOODED = 0.5)
 	palette = /datum/color_palette/generic_colors
 	palette_key = MUTANT_COLOR
-	hand_traits = list(TRAIT_CHUNKYFINGERS_IGNORE_BATON)
+	hand_traits = list(TRAIT_CHUNKYFINGERS)
 
 /obj/item/bodypart/arm/right/nabber
 	// icon = 'icons/mob/species/nabber/nabber_parts_greyscale.dmi'
@@ -56,7 +56,7 @@
 	composition_effects = list(TRAIT_COLD_BLOODED = 0.5)
 	palette = /datum/color_palette/generic_colors
 	palette_key = MUTANT_COLOR
-	hand_traits = list(TRAIT_CHUNKYFINGERS_IGNORE_BATON)
+	hand_traits = list(TRAIT_CHUNKYFINGERS)
 
 
 //Change noslip into the thing that makes them slide instead of being knocked down

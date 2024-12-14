@@ -4080,7 +4080,6 @@
 #include "code\modules\language\moffic.dm"
 #include "code\modules\language\monkey.dm"
 #include "code\modules\language\mushroom.dm"
-#include "code\modules\language\nabbish.dm"
 #include "code\modules\language\narsian.dm"
 #include "code\modules\language\nekomimetic.dm"
 #include "code\modules\language\piratespeak.dm"

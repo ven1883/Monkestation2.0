@@ -711,6 +711,6 @@ GLOBAL_LIST_INIT(english_to_zombie, list())
 	// modifies_speech = TRUE //We can figure out later how this works
 	// languages_native = /datum/language/nabbish //We need a nabber language
 	// Ah that's not what it means. Checkmothcode for how to do it, or better yet simian
-	liked_foodtypes = GORE | MEAT | SEAFOOD | RAW | BUGS
-	disliked_foodtypes = GROSS | FRIED | JUNKFOOD
+	liked_foodtypes = GORE | MEAT | SEAFOOD | RAW | BUGS | DAIRY
+	disliked_foodtypes = GROSS | FRIED
 	toxic_foodtypes = GRAIN | VEGETABLES | CLOTH
