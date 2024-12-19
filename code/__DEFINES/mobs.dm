@@ -132,11 +132,16 @@
 #define SPECIES_ZOMBIE_KROKODIL "krokodil_zombie"
 #define SPECIES_OOZELING "oozeling"
 #define SPECIES_IPC "ipc"
-#define SPECIES_SIMIAN "simian" //Monkestation Addition
-#define SPECIES_GOBLIN "goblin" //Monkestation Addition
-#define SPECIES_FLORAN "floran" //Monkestation Addition
-#define SPECIES_SATYR "satyr" //Monkestation Addition
-#define SPECIES_TERATOMA "teratoma" //Monkestation Addition
+
+// Monkestation species
+#define SPECIES_SIMIAN "simian"
+#define SPECIES_GOBLIN "goblin"
+#define SPECIES_FLORAN "floran"
+#define SPECIES_SATYR "satyr"
+#define SPECIES_TERATOMA "teratoma"
+#define SPECIES_CALICO "calico"
+
+
 // Like species IDs, but not specifically attached a species.
 #define BODYPART_ID_ALIEN "alien"
 #define BODYPART_ID_ROBOTIC "robotic"
