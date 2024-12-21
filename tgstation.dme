@@ -6976,6 +6976,7 @@
 #include "monkestation\code\modules\bunny_wizard\outfits.dm"
 #include "monkestation\code\modules\bunny_wizard\wizard_items.dm"
 #include "monkestation\code\modules\calicos\species.dm"
+#include "monkestation\code\modules\calicos\body\bodyparts.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\bandage.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\subsystem.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\components\make_item_slow.dm"

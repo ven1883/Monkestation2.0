@@ -12,3 +12,6 @@
 
 /mob/living/carbon/human/species/moth/tundra
 	race = /datum/species/moth/tundra
+
+/mob/living/carbon/human/species/calico
+	race = /datum/species/calico

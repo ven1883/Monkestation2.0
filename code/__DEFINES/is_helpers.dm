@@ -98,10 +98,13 @@ GLOBAL_LIST_INIT(turfs_openspace, typecacheof(list(
 #define isandroid(A) (is_species(A, /datum/species/android))
 #define isnightmare(A) (is_species(A, /datum/species/shadow/nightmare))
 #define isipc(A) (is_species(A, /datum/species/ipc))
-#define isgoblin(A) (is_species(A, /datum/species/goblin)) //Monkestation Addition
-#define isfloran(A) (is_species(A, /datum/species/floran)) //Monkestation Addition
-#define isarachnid(A) (is_species(A, /datum/species/arachnid)) //Monkestation Addition
-#define isteratoma(A) (is_species(A, /datum/species/teratoma)) //Monkestation Addition
+
+//Monkestation Additions
+#define isgoblin(A) (is_species(A, /datum/species/goblin))
+#define isfloran(A) (is_species(A, /datum/species/floran))
+#define isarachnid(A) (is_species(A, /datum/species/arachnid))
+#define isteratoma(A) (is_species(A, /datum/species/teratoma))
+#define iscalico(A) (is_)species(A, /datum/species/calico)
 
 
 //More carbon mobs
