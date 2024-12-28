@@ -68,6 +68,8 @@
 	START_PROCESSING(SSobj, src)
 	RegisterSignal(target, COMSIG_MOB_GET_STATUS_TAB_ITEMS, PROC_REF(get_status_tab_items))
 
+	calculate_mults()
+
 /datum/martial_art/shockstar/on_remove(mob/living/carbon/human/target)
 	. = ..()
 
@@ -100,6 +102,18 @@
 		return TRUE
 	return FALSE
 
+
+// HH
+// Strike; bread & butter primary attack combo.
+/datum/martial_art/shockstar/proc/strike(mob/living/carbon/human/attacker, mob/living/carbon/human/defender)
+	defender.apply_damage(10 * damage_mult, BURN, BODY_ZONE_HEAD)
+	defender.adjust_dizzy_up_to(1, 10)
+
+	playsound(defender, 'sound/effects/wounds/crack2.ogg', 70)
+	playsound(attacker, pick(crystal_pops), 80)
+	attacker.do_attack_animation(defender, ATTACK_EFFECT_PUNCH)
+	increment_counter()
+
 // DH
 // Crack; disarms the target and temporarily blinds them.
 // On offensive mode: Uses a charge to light the target on fire as well and severely burning them.
@@ -119,7 +133,7 @@
 
 		defender.set_fire_stacks(3) //hellfire be upon ye
 		defender.ignite_mob()
-		defender.apply_damage(5, BURN, BODY_ZONE_EVERYTHING)
+		defender.apply_damage(5 * damage_mult, BURN, BODY_ZONE_EVERYTHING)
 		burns.apply_wound(defender.get_bodypart(BODY_ZONE_HEAD))
 
 		playsound(defender, 'sound/magic/fireball.ogg', 50)
@@ -141,17 +155,6 @@
 	playsound(attacker, 'sound/weapons/contractorbatonextend.ogg', 80)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_CLAW)
 
-// HH
-// Strike; bread & butter primary attack combo.
-/datum/martial_art/shockstar/proc/strike(mob/living/carbon/human/attacker, mob/living/carbon/human/defender)
-	defender.apply_damage(10, BURN, BODY_ZONE_HEAD)
-	defender.adjust_dizzy_up_to(1, 10)
-
-	playsound(defender, 'sound/effects/wounds/crack2.ogg', 40)
-	playsound(attacker, pick(crystal_pops), 80)
-	attacker.do_attack_animation(defender, ATTACK_EFFECT_PUNCH)
-	increment_counter()
-
 // HD
 // Knock; kicks the target three tiles away and temporarily stuns them. Serves a similar role to Tail Sweep from Trbial Claw.
 // On defensive mode: Uses a charge to project a tesla field that shocks nearby targets.
@@ -162,20 +165,20 @@
 		to_chat(attacker, span_warning("[defender] is dead. There's no point in trying to throw them around."))
 		return MARTIAL_ATTACK_INVALID
 
+	defender.apply_damage(10 * damage_mult, BURN, BODY_ZONE_CHEST)
+	defender.Knockdown(10)
+	defender.Paralyze(1.5 SECONDS)
+	defender.throw_at(throw_target, 3, 4, attacker)
+
 	if (defensive_mode == TRUE && charges > 0)
 		decrement_charge()
 
 		playsound(attacker, pick(aggressive_sm), 100)
 		tesla_field.Trigger() // evil goblin noises
-	else
-		defender.apply_damage(10, BURN, BODY_ZONE_CHEST)
-		defender.Knockdown(10)
-		defender.Paralyze(1.5 SECONDS)
-		defender.throw_at(throw_target, 3, 4, attacker)
 
-		increment_counter()
-		playsound(attacker, 'sound/effects/hit_kick.ogg', 50, TRUE)
-		attacker.do_attack_animation(defender, ATTACK_EFFECT_SLASH)
+	increment_counter()
+	playsound(attacker, 'sound/effects/hit_kick.ogg', 50, TRUE)
+	attacker.do_attack_animation(defender, ATTACK_EFFECT_SLASH)
 
 
 // DDG
@@ -206,7 +209,7 @@
 
 
 	defender.electrocute_act(10, attacker)
-	defender.apply_damage(10, BURN, BODY_ZONE_CHEST)
+	defender.apply_damage(10 * damage_mult, BURN, BODY_ZONE_CHEST)
 	defender.Knockdown(10)
 	defender.Paralyze(3 SECONDS)
 
@@ -217,9 +220,9 @@
 
 /datum/martial_art/shockstar/help_act(mob/living/attacker, mob/living/defender)
 	if (defender.health <= defender.crit_threshold || (attacker.pulling == defender && attacker.grab_state >= GRAB_NECK) || defender.IsSleeping())
-		if (do_after(attacker, 5 SECONDS) && !is_absorbed())
+		if (do_after(attacker, 5 SECONDS) && !is_absorbed(defender) && istype(defender, /mob/living/carbon/human))
 			defender.adjustOxyLoss(60)
-			absorb_target()
+			absorb_target(defender)
 
 /datum/martial_art/shockstar/harm_act(mob/living/carbon/human/attacker, mob/living/carbon/human/defender)
 	add_to_streak("H",defender)
@@ -279,13 +282,13 @@
 
 
 //these are for absorptions
-/datum/martial_art/shockstar/proc/absorb_target(mob/living/carbon/human/target)
+/datum/martial_art/shockstar/proc/absorb_target(mob/living/target)
 	++absorptions
 	++max_charges
 	set_charge(max_charges)
 	absorb_list.Add(target)
 
-/datum/martial_art/shockstar/proc/is_absorbed(target)
+/datum/martial_art/shockstar/proc/is_absorbed(mob/living/carbon/human/target)
 	return absorb_list?.Find(target)
 
 //evil effects
@@ -373,8 +376,8 @@
 
 	to_chat(usr, "<b><i>You retreat inward and recall the teachings of the Tribal Claw...</i></b>")
 
-	to_chat(usr, span_notice("Crack</span>: Disarm Harm. Clasp your hands together and ignite a ball of plasma to unleash on your target, disarming them and blinding them temporarily. Can use an Offensive charge to light them ablaze, and a defensive charge to produce an electromagnetic pulse."))
 	to_chat(usr, span_notice("Strike</span>: Harm Harm. Empower your body with the power of the supermatter. Deal damage."))
+	to_chat(usr, span_notice("Crack</span>: Disarm Harm. Clasp your hands together and ignite a ball of plasma to unleash on your target, disarming them and blinding them temporarily. Can use an Offensive charge to light them ablaze, and a defensive charge to produce an electromagnetic pulse."))
 	to_chat(usr, span_notice("Knock</span>: Harm Disarm. Kick your target away, or using a defensive Charge, hijack your target's nioelectric signature to generate a tesla field around yourself."))
 	to_chat(usr, span_notice("Grasp</span>: Disarm Disarm Grab. Electrocutes your target. You can use an offensive Charge to deliver more power and throw them."))
 
