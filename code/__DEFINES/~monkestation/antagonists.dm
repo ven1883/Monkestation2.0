@@ -58,3 +58,6 @@
 
 /// How much heretic Mark of Rust mark does to items
 #define RUST_MARK_DAMAGE	50
+
+//darkspawn resources
+#define ANTAG_RESOURCE_DARKSPAWN "psi"

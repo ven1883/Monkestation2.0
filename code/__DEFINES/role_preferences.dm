@@ -16,9 +16,12 @@
 #define ROLE_OPERATIVE "Operative"
 #define ROLE_TRAITOR "Traitor"
 #define ROLE_WIZARD "Wizard"
-#define ROLE_CLOCK_CULTIST "Clock Cultist" //monkestation edit
+
+//monkestation roundstarts
+#define ROLE_CLOCK_CULTIST "Clock Cultist"
 #define ROLE_OPFOR_CANDIDATE "OPFOR Candidate"
 #define ROLE_ASSAULT_OPERATIVE "Assault Operative"
+#define ROLE_DARKSPAWN	"Darkspawn" // thanks yogs
 
 // Midround roles
 #define ROLE_ABDUCTOR "Abductor"
