@@ -105,7 +105,7 @@
 
 // HH
 // Strike; bread & butter primary attack combo.
-/datum/martial_art/shockstar/proc/strike(mob/living/carbon/human/attacker, mob/living/carbon/human/defender)
+/datum/martial_art/shockstar/proc/strike(mob/living/attacker, mob/living/defender)
 	defender.apply_damage(10 * damage_mult, BURN, BODY_ZONE_HEAD)
 	defender.adjust_dizzy_up_to(1, 10)
 
@@ -118,7 +118,7 @@
 // Crack; disarms the target and temporarily blinds them.
 // On offensive mode: Uses a charge to light the target on fire as well and severely burning them.
 // On defensive mode: Uses a charge to generate an EMP on the target.
-/datum/martial_art/shockstar/proc/crack(mob/living/carbon/human/attacker, mob/living/carbon/human/defender)
+/datum/martial_art/shockstar/proc/crack(mob/living/attacker, mob/living/defender)
 	if (defender.stat == DEAD)
 		to_chat(attacker, span_warning("[defender] is dead. There's nothing here to do."))
 		return MARTIAL_ATTACK_INVALID
@@ -158,7 +158,7 @@
 // HD
 // Knock; kicks the target three tiles away and temporarily stuns them. Serves a similar role to Tail Sweep from Trbial Claw.
 // On defensive mode: Uses a charge to project a tesla field that shocks nearby targets.
-/datum/martial_art/shockstar/proc/knock(mob/living/carbon/attacker, mob/living/carbon/defender)
+/datum/martial_art/shockstar/proc/knock(mob/living/attacker, mob/living/defender)
 	var/atom/throw_target = get_edge_target_turf(defender, attacker.dir)
 
 	if (defender.stat == DEAD)
@@ -184,7 +184,8 @@
 // DDG
 // Grasp; electrocutes the target, does 20 burn damage to the chest, and temporarily stuns them.
 // On offesnive mode: Uses one charge to deal an additional 20 damage (40 total), as well as casuing severe heart damage.
-/datum/martial_art/shockstar/proc/grasp(mob/living/carbon/human/attacker, mob/living/carbon/human/defender)
+/datum/martial_art/shockstar/proc/grasp(mob/living/attacker, mob/living/defender)
+	var/mob/living/carbon/human/carbon_target = defender
 
 	if (defender.stat == DEAD)
 		to_chat(attacker, span_warning("[defender] is dead. There's no point in trying to stop their heart."))
@@ -195,15 +196,16 @@
 
 		defender.apply_damage(20, BURN, BODY_ZONE_CHEST)
 
-		if (defender.can_heartattack() && !defender.undergoing_cardiac_arrest())
-			if(!defender.stat)
-				defender.visible_message(span_warning("[defender] thrashes wildly, clutching at [defender.p_their()] chest!"),
-					span_userdanger("You feel a horrible agony in your chest!"))
-			defender.set_heartattack(TRUE)
-			defender.emote("scream")
+		if (istype(carbon_target))
+			if (carbon_target.can_heartattack() && !carbon_target.undergoing_cardiac_arrest())
+				if(!carbon_target.stat)
+					carbon_target.visible_message(span_warning("[carbon_target] thrashes wildly, clutching at [carbon_target.p_their()] chest!"),
+						span_userdanger("You feel a horrible agony in your chest!"))
+				carbon_target.set_heartattack(TRUE)
+				carbon_target.emote("scream")
 
-			//insurance policy since heart attacks seem to be broken
-			defender.adjustOrganLoss(ORGAN_SLOT_HEART, 60, 100)
+				//insurance policy since heart attacks seem to be broken
+				carbon_target.adjustOrganLoss(ORGAN_SLOT_HEART, 60, 100)
 
 			playsound(attacker, pick(aggressive_sm), 100)
 
