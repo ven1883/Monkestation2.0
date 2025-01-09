@@ -160,6 +160,10 @@
 	if(!.)
 		return
 	var/mob/dead/new_player/new_player = hud.mymob
+	var/datum/station_trait/overflow_job_bureaucracy/overflow = locate() in SSstation.station_traits
+	if(!ready && overflow?.picked_job && new_player.client?.prefs?.read_preference(/datum/preference/toggle/verify_overflow))
+		if(tgui_alert(new_player, "The current overflow role is [overflow.picked_job.title], are you sure you would like to ready up?", "Overflow Notice", list("Yes", "No")) != "Yes")
+			return
 	ready = !ready
 	if(ready)
 		new_player.ready = PLAYER_READY_TO_PLAY
@@ -300,11 +304,10 @@
 
 /atom/movable/screen/lobby/button/intents/Click(location, control, params)
 	. = ..()
-	if(!hud.mymob.client.challenge_menu)
-		var/datum/challenge_selector/new_tgui = new(hud.mymob)
-		new_tgui.ui_interact(hud.mymob)
-	else
-		hud.mymob.client.challenge_menu.ui_interact(hud.mymob)
+	var/datum/player_details/details = get_player_details(hud.mymob)
+	details.challenge_menu ||= new(details)
+	details.challenge_menu.ui_interact(hud.mymob)
+
 /atom/movable/screen/lobby/button/discord
 	icon = 'icons/hud/lobby/bottom_buttons.dmi'
 	icon_state = "discord"
@@ -464,6 +467,8 @@
 	icon_state = "you_are_here"
 	screen_loc = "TOP,CENTER:-61"
 
+INITIALIZE_IMMEDIATE(/atom/movable/screen/lobby/youarehere)
+
 //Explanation: It gets the port then sets the "here" var in /movable/screen/lobby to the port number
 // and if the port number matches it makes clicking the button do nothing so you dont spam reconnect to the server your in
 /atom/movable/screen/lobby/youarehere/Initialize(mapload)
@@ -490,6 +495,8 @@
 	/// The port of this server.
 	var/server_port
 
+INITIALIZE_IMMEDIATE(/atom/movable/screen/lobby/button/server)
+
 /atom/movable/screen/lobby/button/server/Initialize(mapload)
 	. = ..()
 	if(is_available())
@@ -513,7 +520,7 @@
 		var/server_link = "byond://[server_ip]:[server_port]"
 		to_chat_immediate(
 			target = hud.mymob,
-			html = examine_block(span_info(span_big("Connecting you to [server_name]\nIf nothing happens, try manually connecting to the server ([server_link]), or the server may be down!"))),
+			html = boxed_message(span_info(span_big("Connecting you to [server_name]\nIf nothing happens, try manually connecting to the server ([server_link]), or the server may be down!"))),
 			type = MESSAGE_TYPE_INFO,
 		)
 		hud.mymob.client << link(server_link)
@@ -575,3 +582,76 @@
 	. = ..()
 	if(.)
 		SEND_SOUND(usr, 'monkestation/sound/misc/menumonkey.ogg')
+
+/atom/movable/screen/lobby/overflow_alert
+	screen_loc = "TOP:-48,CENTER-2.7"
+	icon = 'icons/hud/lobby/overflow.dmi'
+	icon_state = ""
+	base_icon_state = "overflow"
+	var/datum/job/overflow_job
+	var/static/disabled = FALSE
+	var/static/mutable_appearance/job_overlay
+
+/atom/movable/screen/lobby/overflow_alert/Initialize(mapload)
+	. = ..()
+	if(SSticker.current_state == GAME_STATE_STARTUP)
+		RegisterSignal(SSticker, COMSIG_TICKER_ENTER_PREGAME, PROC_REF(initial_setup))
+	else
+		generate_and_set_icon()
+	update_appearance(UPDATE_ICON)
+
+/atom/movable/screen/lobby/overflow_alert/Destroy()
+	overflow_job = null
+	UnregisterSignal(SSticker, COMSIG_TICKER_ENTER_PREGAME)
+	return ..()
+
+/atom/movable/screen/lobby/overflow_alert/update_icon_state()
+	if(!disabled && !isnull(job_overlay))
+		icon_state = base_icon_state
+	else
+		icon_state = ""
+	return ..()
+
+/atom/movable/screen/lobby/overflow_alert/update_overlays()
+	. = ..()
+	if(!disabled && job_overlay)
+		. += job_overlay
+
+/atom/movable/screen/lobby/overflow_alert/MouseEntered(location,control,params)
+	. = ..()
+	if(!disabled && overflow_job && !QDELETED(src))
+		openToolTip(usr, src, params, title = "Job Overflow", content = "The overflow role this round is <b>[html_encode(overflow_job.title)]</b>!")
+
+/atom/movable/screen/lobby/overflow_alert/MouseExited()
+	closeToolTip(usr)
+
+/atom/movable/screen/lobby/overflow_alert/proc/initial_setup(datum/source)
+	SIGNAL_HANDLER
+	UnregisterSignal(SSstation, COMSIG_TICKER_ENTER_PREGAME)
+	var/datum/station_trait/overflow_job_bureaucracy/overflow = locate() in SSstation.station_traits
+	overflow_job = overflow?.picked_job
+	if(overflow_job)
+		generate_and_set_icon()
+	else
+		disabled = TRUE
+	update_appearance(UPDATE_ICON)
+
+/atom/movable/screen/lobby/overflow_alert/proc/generate_and_set_icon()
+	if(disabled || SSticker.current_state == GAME_STATE_STARTUP || !isnull(job_overlay))
+		return
+	var/datum/station_trait/overflow_job_bureaucracy/overflow = locate() in SSstation.station_traits
+	overflow_job = overflow?.picked_job
+	if(!overflow_job)
+		disabled = TRUE
+		return
+	var/icon/job_icon = get_job_hud_icon(overflow_job, include_unknown = TRUE)
+	if(!job_icon)
+		return
+	var/icon/resized_icon = resize_icon(job_icon, 16, 16)
+	if(!resized_icon)
+		stack_trace("Failed to upscale icon for [overflow_job], upscaling using BYOND!")
+		job_icon.Scale(16, 16)
+		resized_icon = job_icon
+	job_overlay = mutable_appearance(resized_icon)
+	job_overlay.pixel_x = 8
+	job_overlay.pixel_y = 18
