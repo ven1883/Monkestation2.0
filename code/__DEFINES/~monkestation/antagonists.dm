@@ -61,3 +61,4 @@
 
 //darkspawn resources
 #define ANTAG_RESOURCE_DARKSPAWN "psi"
+#define ANTAG_RESOURCE_VAMPIRE "blood" //go do the thingy

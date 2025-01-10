@@ -210,7 +210,15 @@
 	to_chat(caster, span_velvet("You attempt to split a piece of your psyche."))
 	searching = TRUE
 	var/mob/dead/observer/chosen_ghost
-	var/list/consenting_candidates = pollGhostCandidates("Would you like to play as piece of [caster]'s psyche?", "Darkspawn", null, ROLE_DARKSPAWN, 10 SECONDS, POLL_IGNORE_DARKSPAWN_PSYCHE)
+	var/list/consenting_candidates = SSpolling.poll_ghost_candidates(
+		"Would you like to play as piece of [caster]'s psyche?",
+		check_jobban = "Darkspawn",
+		role = ROLE_DARKSPAWN,
+		poll_time = 10 SECONDS,
+		alert_pic = /datum/antagonist/traitor/contractor,
+		role_name_text = "darkspawn psyche"
+	)
+
 	if(consenting_candidates.len)
 		chosen_ghost = pick(consenting_candidates)
 	searching = FALSE

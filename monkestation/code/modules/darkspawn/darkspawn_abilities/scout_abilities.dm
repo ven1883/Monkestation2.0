@@ -87,6 +87,31 @@
 //////////////////////////////////////////////////////////////////////////
 //----------------------Temporary Darkness in aoe-----------------------//
 //////////////////////////////////////////////////////////////////////////
+/// Basic smoke spell.
+/datum/action/cooldown/spell/smoke/darkness
+	name = "Blinding Miasma"
+	desc = "Spews a cloud of smoke which will blind enemies and provide cover from light."
+	panel = "Darkspawn"
+	button_icon_state = "blinding_miasma"
+	button_icon = 'monkestation/icons/mob/actions/actions_darkspawn.dmi'
+	background_icon_state = "bg_alien"
+	overlay_icon_state = "bg_alien_border"
+	buttontooltipstyle = "alien"
+
+	antimagic_flags = NONE
+	cooldown_time = 45 SECONDS
+	cooldown_reduction_per_rank = 2.5 SECONDS
+	spell_requirements = NONE
+
+	invocation_type = INVOCATION_NONE
+	check_flags	= AB_CHECK_CONSCIOUS
+
+	sound = 'sound/effects/bamf.ogg'
+
+	smoke_type = /datum/effect_system/fluid_spread/smoke/bad
+	smoke_amt = 4
+
+/*
 /datum/action/cooldown/spell/darkness_smoke
 	name = "Blinding Miasma"
 	desc = "Spews a cloud of smoke which will blind enemies and provide cover from light."
@@ -106,6 +131,8 @@
 	///The size of the smoke cloud spawned by the ability
 	var/range = 4
 
+
+/// what the fuck
 /datum/action/cooldown/spell/darkness_smoke/cast(mob/living/carbon/human/user) //Extremely hacky ---- (oh god, it really is)
 	. = ..()
 	owner.balloon_alert(owner, "Hwlok'krotho")
@@ -120,6 +147,15 @@
 		S.set_up(range, location = B.loc, carry = B.reagents)
 		S.start()
 	qdel(B)
+*/
+
+/datum/effect_system/fluid_spread/smoke/chem/darkspawn
+	effect_type = /obj/effect/particle_effect/fluid/smoke/chem/darkspawn
+
+/obj/effect/particle_effect/fluid/smoke/chem/darkspawn
+	lifetime = 10 SECONDS
+	opacity = FALSE
+
 
 //////////////////////////////////////////////////////////////////////////
 //----------------------------Trap abilities----------------------------//

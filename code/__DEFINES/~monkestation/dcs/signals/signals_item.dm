@@ -21,3 +21,9 @@
 
 ///Sent by a tumor when its removed
 #define COMSIG_ZOMBIE_TUMOR_REMOVED "zombie_tumor_removed"
+
+// yogs
+/// from /datum/component/cleave_attack/perform_sweep(): (atom/target, obj/item/item, mob/living/user, params)
+#define COMSIG_ATOM_CLEAVE_ATTACK "atom_cleave_attack"
+	// allows cleave attack to hit things it normally wouldn't
+	#define ATOM_ALLOW_CLEAVE_ATTACK (1<<0)

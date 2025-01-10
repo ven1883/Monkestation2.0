@@ -5,14 +5,14 @@
 	name = "Psionic hand"
 	desc = "Concentrated psionic power, primed to toy with mortal minds."
 	icon_state = "flagellation"
-	item_state = "hivemind"
+	inhand_icon_state = "hivemind"
 
 /obj/item/melee/touch_attack/devour_will
 	name = "Psionic hand"
 	desc = "Concentrated psionic power, primed to toy with mortal minds."
 	icon = 'monkestation/icons/obj/darkspawn_items.dmi'
 	icon_state = "dark_bead"
-	item_state = "hivemind"
+	inhand_icon_state = "hivemind"
 //////////////////////////////////////////////////////////////////////////
 //-----------------------Main progression ability-----------------------//
 //////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@
 		return
 
 	caster.Immobilize(1 SECONDS) // So they don't accidentally move while beading
-	target.adjust_silence_up_to += 5
+	target.adjust_silence(5)
 
 	caster.balloon_alert(caster, "Cera ko...")
 	to_chat(caster, span_velvet("You begin siphoning [target]'s will..."))
@@ -177,7 +177,7 @@
 		return FALSE
 	tying = FALSE
 
-	target.adjust_silence_up_to += 5
+	target.adjust_silence(5)
 
 	if(target.handcuffed)
 		to_chat(caster, span_warning("[target] is already restrained."))
@@ -235,53 +235,53 @@
 /datum/action/cooldown/spell/touch/silver_tongue/is_valid_target(atom/cast_on)
 	return istype(cast_on, /obj/machinery/computer/communications)
 
-/datum/action/cooldown/spell/touch/silver_tongue/cast_on_hand_hit(obj/item/melee/touch_attack/hand, obj/machinery/computer/communications/target, mob/living/carbon/caster)
+/datum/action/cooldown/spell/touch/silver_tongue/cast_on_hand_hit(obj/item/melee/touch_attack/hand, obj/machinery/computer/communications/console, mob/living/carbon/caster)
 	if(in_use)
 		return
-	if(target.stat)
-		to_chat(owner, span_warning("[target] is depowered."))
+	if(console.machine_stat)
+		to_chat(owner, span_warning("[console] is depowered."))
 		return FALSE
 
 	caster.balloon_alert(caster, "[pick("Pda ykw'lpwe skwo h'kccaz ej.", "Pda aiank'cajyu eo kran.", "Oknnu, bkn swop'ejc ukqn pkza.", "Wke swo kxn'znaz xu hws psk.")]")
-	owner.visible_message(span_warning("[owner] briefly touches [target]'s screen, and the keys begin to move by themselves!"), span_velvet("You begin transmitting a recall message to Central Command..."))
+	owner.visible_message(span_warning("[owner] briefly touches [console]'s screen, and the keys begin to move by themselves!"), span_velvet("You begin transmitting a recall message to Central Command..."))
 	in_use = TRUE
 	play_recall_sounds(target, (duration/10)-1)
 	if(!do_after(owner, duration, target))
 		in_use = FALSE
 		return
 	in_use = FALSE
-	if(!target)
+	if(!console)
 		return
-	if(target.stat)
-		to_chat(owner, span_warning("[target] has lost power."))
+	if(console.machine_stat)
+		to_chat(owner, span_warning("[console] has lost power."))
 		return
 	SSshuttle.emergency.cancel()
 	to_chat(owner, span_velvet("The ruse was a success. The shuttle is on its way back."))
 	return TRUE
 
-/datum/action/cooldown/spell/touch/silver_tongue/proc/play_recall_sounds(obj/machinery/C, iterations) //neato sound effects
+/datum/action/cooldown/spell/touch/silver_tongue/proc/play_recall_sounds(obj/machinery/console, iterations) //neato sound effects
 	set waitfor = FALSE
-	if(!C || C.stat || !in_use)
+	if(!console || console.machine_stat || !in_use)
 		return
-	playsound(C, "terminal_type", 50, TRUE)
+	playsound(console, "terminal_type", 50, TRUE)
 	if(prob(25))
-		playsound(C, 'sound/machines/terminal_alert.ogg', 50, FALSE)
-		do_sparks(5, TRUE, get_turf(C))
+		playsound(console, 'sound/machines/terminal_alert.ogg', 50, FALSE)
+		do_sparks(5, TRUE, get_turf(console))
 
 	if(iterations <= 0)
-		addtimer(CALLBACK(src, PROC_REF(end_recall_sounds), C), 0.4 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(end_recall_sounds), console), 0.4 SECONDS)
 	else
-		addtimer(CALLBACK(src, PROC_REF(play_recall_sounds), C, iterations - 1), 1 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(play_recall_sounds), console, iterations - 1), 1 SECONDS)
 
-/datum/action/cooldown/spell/touch/silver_tongue/proc/end_recall_sounds(obj/machinery/C) //end the neato sound effects
+/datum/action/cooldown/spell/touch/silver_tongue/proc/end_recall_sounds(obj/machinery/console) //end the neato sound effects
 	set waitfor = FALSE
-	if(!C || C.stat || !in_use)
+	if(!console || console.machine_stat || !in_use)
 		return
-	playsound(C, 'sound/machines/terminal_prompt.ogg', 50, FALSE)
+	playsound(console, 'sound/machines/terminal_prompt.ogg', 50, FALSE)
 	sleep(0.4 SECONDS)
-	if(!C || C.stat || !in_use)
+	if(!console || console.machine_stat || !in_use)
 		return
-	playsound(C, 'sound/machines/terminal_prompt_confirm.ogg', 50, FALSE)
+	playsound(console, 'sound/machines/terminal_prompt_confirm.ogg', 50, FALSE)
 
 //////////////////////////////////////////////////////////////////////////
 //-----------------Used for placing things into the world---------------//

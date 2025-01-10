@@ -88,6 +88,13 @@
 	/// The amount of smoke to create on cast. This is a range, so a value of 5 will create enough smoke to cover everything within 5 steps.
 	var/smoke_amt = 0
 
+	//monkestation edit: yogs
+
+	/// An associative list of all resource costs
+	var/list/resource_costs
+	/// Boolean, if true, resource costs will be ignored
+	var/bypass_cost = FALSE
+
 /datum/action/cooldown/spell/Grant(mob/grant_to)
 	// If our spell is mind-bound, we only wanna grant it to our mind
 	if(istype(target, /datum/mind))
@@ -178,6 +185,16 @@
 		if(feedback)
 			to_chat(owner, span_warning("Some form of antimagic is preventing you from casting [src]!"))
 		return FALSE
+
+	//monkestation edit: yogs
+	//used for darkspawn spells
+	if(owner.mind && !bypass_cost && LAZYLEN(resource_costs))
+		for(var/resource in resource_costs)
+			var/has_cost = SEND_SIGNAL(owner.mind, COMSIG_MIND_CHECK_ANTAG_RESOURCE, resource, resource_costs[resource])
+			if(!has_cost)
+				if(feedback)
+					to_chat(owner, span_warning("You don't have enough [resource]!"))
+				return FALSE
 
 	if(!try_invoke(owner, feedback = feedback))
 		return FALSE
@@ -274,6 +291,7 @@
 	if(!(precast_result & SPELL_NO_IMMEDIATE_COOLDOWN))
 		// The entire spell is done, start the actual cooldown at its set duration
 		StartCooldown()
+		consume_resource() //a resource cost is basically the same as a cooldown
 
 	// And then proceed with the aftermath of the cast
 	// Final effects that happen after all the casting is done can go here

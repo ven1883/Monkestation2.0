@@ -6,7 +6,7 @@
 	desc = "A staff made from pure darkness."
 	icon = 'monkestation/icons/obj/darkspawn_items.dmi'
 	icon_state = "shadow_staff"
-	item_state = "shadow_staff0"
+	inhand_icon_state = "shadow_staff0"
 	base_icon_state = "shadow_staff"
 	lefthand_file = 'monkestation/icons/mob/inhands/antag/darkspawn_lefthand.dmi'
 	righthand_file = 'monkestation/icons/mob/inhands/antag/darkspawn_righthand.dmi'
@@ -56,7 +56,7 @@
 /obj/item/gun/magic/darkspawn/worn_overlays(mutable_appearance/standing, isinhands, icon_file) //this doesn't work and i have no clue why
 	. = ..()
 	if(isinhands)
-		. += emissive_appearance(icon_file, "[item_state]_emissive", src)
+		. += emissive_appearance(icon_file, "[inhand_icon_state]_emissive", src)
 
 ///////////////////FANCY PROJECTILE EFFECTS//////////////////////////
 /obj/item/gun/magic/darkspawn/proc/on_projectile_hit(datum/source, atom/movable/firer, atom/target, angle)
@@ -74,13 +74,13 @@
 
 ////////////////////////TWO-HANDED BLOCKING//////////////////////////
 /obj/item/gun/magic/darkspawn/proc/on_wield() //guns do weird things to some of the icon procs probably, and i can't find which ones, so i need to do this all again
-	item_state = "[base_icon_state][HAS_TRAIT(src, TRAIT_WIELDED)]"
+	inhand_icon_state = "[base_icon_state][HAS_TRAIT(src, TRAIT_WIELDED)]"
 	if(ishuman(loc))
 		var/mob/living/carbon/human/C = loc
 		C.update_inv_hands()
 
 /obj/item/gun/magic/darkspawn/proc/on_unwield()
-	item_state = "[base_icon_state][HAS_TRAIT(src, TRAIT_WIELDED)]"
+	inhand_icon_state = "[base_icon_state][HAS_TRAIT(src, TRAIT_WIELDED)]"
 	if(ishuman(loc))
 		var/mob/living/carbon/human/C = loc
 		C.update_inv_hands()

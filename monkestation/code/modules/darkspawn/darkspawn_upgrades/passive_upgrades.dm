@@ -29,10 +29,10 @@
 	willpower_cost = 3
 	menu_tab = STORE_PASSIVE
 	shadow_flags = ALL_DARKSPAWN_CLASSES
-	var/obj/item/internal/organ/eyes/eyes
+	var/obj/item/organ/internal/eyes/eyes
 
 /datum/psi_web/xray/on_gain()
-	eyes = shadowhuman.getorganslot(ORGAN_SLOT_EYES)
+	eyes = shadowhuman.get_organ_slot(ORGAN_SLOT_EYES)
 	if(eyes && istype(eyes))
 		eyes.sight_flags |= SEE_OBJS | SEE_TURFS
 		shadowhuman.update_sight()

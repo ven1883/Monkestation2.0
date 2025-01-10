@@ -3,7 +3,7 @@
 	desc = "A bow made of solid darkness. The arrows it shoots seem to suck light out of the surroundings."
 	icon = 'monkestation/icons/obj/darkspawn_items.dmi'
 	icon_state = "shadow_caster"
-	item_state = "shadow_caster"
+	inhand_inhand_icon_state = "shadow_caster"
 	lefthand_file = 'monkestation/icons/mob/inhands/antag/darkspawn_lefthand.dmi'
 	righthand_file = 'monkestation/icons/mob/inhands/antag/darkspawn_righthand.dmi'
 	mag_type = /obj/item/ammo_box/magazine/internal/bow/shadow
@@ -25,11 +25,11 @@
 	desc = "it seem to suck light out of the surroundings."
 	icon = 'monkestation/icons/obj/darkspawn_projectiles.dmi'
 	icon_state = "caster_arrow"
-	item_state = "caster_arrow"
-	light_system = MOVABLE_LIGHT
+	inhand_icon_state = "caster_arrow"
+	light_system = OVERLAY_LIGHT
 	light_power = -1
 	light_color = COLOR_VELVET
-	light_range = 2
+	light_outer_range = 2
 	embedding = list("embed_chance" = 100, "embedded_fall_chance" = 0) //always embeds if it hits someone
 	projectile_type = /obj/projectile/bullet/reusable/arrow/shadow
 
@@ -52,11 +52,11 @@
 	icon = 'monkestation/icons/obj/darkspawn_projectiles.dmi'
 	icon_state = "caster_arrow"
 	damage = 25 //reduced damage per arrow compared to regular ones
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	light_power = -1
 	light_color = COLOR_VELVET
-	light_range = 2
-	embed_chance = 1 //always embeds if it hits someone
+	light_outer_range = 2
+	embedding = list("embed_chance=100", "fall_chance=2") //always embeds if it hits someone
 
 /obj/projectile/bullet/reusable/arrow/shadow/Initialize(mapload)
 	. = ..()

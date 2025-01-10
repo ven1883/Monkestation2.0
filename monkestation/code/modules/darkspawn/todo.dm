@@ -13,4 +13,10 @@
 
 //TODO: ensure TRAIT_FAST_COOLDOWNS works
 
+//TODO: ensure cleave attacks give correct slowdown
+
+//TODO: ensure indomitable properly sets move mode
+
+//TODO: holy sweet mother of jesus the entire antag resource system and all their fucking subparts
+// COMSIG_MIND_SPEND_ANTAG_RESOURCE
 //six quadrillion other things I forgot

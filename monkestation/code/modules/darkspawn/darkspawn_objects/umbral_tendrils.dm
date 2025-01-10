@@ -4,7 +4,7 @@
 	desc = "A mass of pulsing, chitonous tendrils with exposed violet flesh."
 	icon = 'monkestation/icons/obj/darkspawn_items.dmi'
 	icon_state = "umbral_tendrils"
-	item_state = "umbral_tendrils"
+	inhand_icon_state = "umbral_tendrils"
 	lefthand_file = 'monkestation/icons/mob/inhands/antag/darkspawn_lefthand.dmi'
 	righthand_file = 'monkestation/icons/mob/inhands/antag/darkspawn_righthand.dmi'
 	hitsound = '/magic/pass_attack.ogg'
@@ -38,7 +38,7 @@
 /obj/item/umbral_tendrils/worn_overlays(mutable_appearance/standing, isinhands, icon_file) //this doesn't work and i have no clue why
 	. = ..()
 	if(isinhands)
-		. += emissive_appearance(icon_file, "[item_state]_emissive", src)
+		. += emissive_appearance(icon_file, "[inhand_icon_state]_emissive", src)
 
 /obj/item/umbral_tendrils/examine(mob/user)
 	. = ..()

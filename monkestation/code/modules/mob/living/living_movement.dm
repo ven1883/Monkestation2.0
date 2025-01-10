@@ -28,3 +28,12 @@
 		add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/bulky_drag, multiplicative_slowdown = S.drag_slowdown * 3)
 		return
 	remove_movespeed_modifier(/datum/movespeed_modifier/bulky_drag)
+/*
+
+/mob/living/proc/weapon_slow(obj/item/I)
+	add_movespeed_modifier(I.name, priority = 101, multiplicative_slowdown = I.weapon_stats[ENCUMBRANCE])
+	addtimer(CALLBACK(src, PROC_REF(remove_movespeed_modifier), I.name), I.weapon_stats[ENCUMBRANCE_TIME], TIMER_UNIQUE|TIMER_OVERRIDE)
+
+/datum/movespeed_modifier/post_slash_slowdown
+	variable = TRUE
+*/

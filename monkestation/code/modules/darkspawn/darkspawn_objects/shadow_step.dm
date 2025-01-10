@@ -1,5 +1,5 @@
 /datum/component/shadow_step
-	var/speedboost = -0.7
+	var/datum/movespeed_modifier/speedboost = /datum/movespeed_modifier/shadow_step
 	var/mob/living/carbon/human/owner
 
 /datum/component/shadow_step/Initialize()
@@ -19,9 +19,12 @@
 	owner.remove_movespeed_modifier(type)
 
 /datum/component/shadow_step/proc/apply_darkness_speed()
-	var/turf/T = get_turf(owner)
-	var/light_amount = T.get_lumcount()
+	var/turf/current_turf = get_turf(owner)
+	var/light_amount = current_turf.get_lumcount()
 	if(light_amount < SHADOW_SPECIES_BRIGHT_LIGHT)
-		owner.add_movespeed_modifier(type, update=TRUE, priority=100, override = TRUE, multiplicative_slowdown=speedboost)
+		owner.add_movespeed_modifier(speedboost)
 	else
-		owner.remove_movespeed_modifier(type)
+		owner.remove_movespeed_modifier(speedboost)
+
+/datum/movespeed_modifier/shadow_step
+	multiplicative_slowdown = -0.7

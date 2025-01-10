@@ -906,9 +906,19 @@
 
 /mob/living/carbon/human/proc/update_damage_movespeed()
 	var/health_deficiency = max((maxHealth - health), staminaloss)
+	var/slowdown_mult = 0
+
+	if(HAS_TRAIT(src, TRAIT_REDUCED_DAMAGE_SLOWDOWN))
+		health_deficiency /= 2
+
+	if (HAS_TRAIT(src, TRAIT_HIGH_RESIST_DAMAGE_SLOWDOWN))
+		slowdown_mult = 0.25
+	else if(HAS_TRAIT(src, TRAIT_RESIST_DAMAGE_SLOWDOWN))
+		slowdown_mult = 0.5
+
 	if(health_deficiency >= 40)
-		add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown, TRUE, multiplicative_slowdown = health_deficiency / 75)
-		add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown_flying, TRUE, multiplicative_slowdown = health_deficiency / 25)
+		add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown, TRUE, multiplicative_slowdown = health_deficiency / (75 * slowdown_mult))
+		add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown_flying, TRUE, multiplicative_slowdown = health_deficiency / (25 * slowdown_mult))
 	else if(LAZYACCESS(movespeed_modification, "[/datum/movespeed_modifier/damage_slowdown]"))
 		remove_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown)
 		remove_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown_flying)

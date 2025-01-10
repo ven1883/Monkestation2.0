@@ -153,7 +153,7 @@
 	if(!istype(cast_on, /obj/machinery/power/apc))
 		return FALSE
 	var/obj/machinery/power/apc/target = cast_on
-	if(target.stat & BROKEN)
+	if(target.machine_stat & BROKEN)
 		to_chat(owner, span_danger("This [target] no longer functions enough for access to the power grid."))
 		return FALSE
 	return TRUE
@@ -175,7 +175,7 @@
 		target.visible_message(span_warning("The [target] begins glowing brightly!"))
 		return FALSE
 
-	if(target.stat & BROKEN)
+	if(target.machine_stat & BROKEN)
 		to_chat(owner, span_danger("This [target] no longer functions enough for access to the power grid."))
 		return FALSE
 
@@ -416,11 +416,11 @@
 		to_chat(target, span_userdanger("A purple light flashes through your mind, and you lose control of your movements!"))
 		target.Paralyze(stun_duration)
 		if(iscarbon(target))
-			var/mob/living/carbon/M = target
-			M.silent += 10
+			var/mob/living/carbon/carbon_target = target
+			carbon_target.adjust_silence(10)
 	else //Distant glare
 		var/loss = max(120 - (distance * 10), 0)
-		target.adjustStaminaLoss(loss)
+		target.stamina.adjust(loss)
 		target.adjust_stutter(loss)
 		to_chat(target, span_userdanger("A purple light flashes through your mind, and exhaustion floods your body..."))
 
