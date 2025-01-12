@@ -1,4 +1,4 @@
-//////////////////////////////////////////////////////////////////////////	
+//////////////////////////////////////////////////////////////////////////
 /obj/item/restraints/legcuffs/beartrap/dark
 	name = "dark snare"
 	armed = 1
@@ -7,7 +7,7 @@
 	breakouttime = 30
 	item_flags = DROPDEL
 	flags_1 = NONE
-	break_strength = 2
+	//break_strength = 2
 	slowdown = 4
 	anchored = TRUE
 	gender = FEMALE //lol examine text? (this actually matters, don't change it)
@@ -26,7 +26,7 @@
 		if(is_team_darkspawn(target))
 			return
 	return ..()
-	
+
 //////////////////////////////////////////////////////////////////////////
 //---------------------------Recharging trap----------------------------//
 //////////////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@
 	max_integrity = 75
 	time_between_triggers = 1 MINUTES
 	sparks = FALSE
-	can_reveal = FALSE
+	//can_reveal = FALSE
 	mouse_opacity = MOUSE_OPACITY_OPAQUE //nothing draws under them and they really SHOULD be easier to click
 	var/examine_text
 
@@ -50,7 +50,7 @@
 	. = ..()
 	add_atom_colour(COLOR_VELVET, FIXED_COLOUR_PRIORITY)
 
-/obj/structure/trap/darkspawn/on_trap_entered(datum/source, atom/movable/AM, ...)
+/obj/structure/trap/darkspawn/on_entered(datum/source, atom/movable/AM, ...)
 	if(isliving(AM))
 		var/mob/living/target = AM
 		if(is_team_darkspawn(target))

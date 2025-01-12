@@ -2,9 +2,9 @@
 	name = "darkspawn tendril"
 	desc = "OOOOOOOOOOOOOOOO spooky"
 	light_power = -1
-	light_range = 1
+	light_outer_range = 1
 	light_color = COLOR_VELVET
-	light_system = MOVABLE_LIGHT //it's not movable, but the new system looks nicer for this purpose
+	light_system = OVERLAY_LIGHT //it's not movable, but the new system looks nicer for this purpose
 
 /obj/effect/temp_visual/goliath_tentacle/darkspawn/Initialize(mapload, mob/living/new_spawner)
 	. = ..()
@@ -17,8 +17,8 @@
 		if(!LAZYLEN(turfs)) //sanity check
 			break
 		var/turf/T = pick_n_take(turfs)
-		new /obj/effect/temp_visual/goliath_tentacle/darkspawn(T, spawner)
-	
+		new /obj/effect/temp_visual/goliath_tentacle/darkspawn(T, new_spawner)
+
 /obj/effect/temp_visual/goliath_tentacle/darkspawn/trip()
 	var/latched = 0
 	for(var/mob/living/L in loc)
@@ -35,4 +35,4 @@
 		retract()
 	else
 		deltimer(timerid)
-		timerid = addtimer(CALLBACK(src, PROC_REF(retract)), latched, TIMER_STOPPABLE) 
+		timerid = addtimer(CALLBACK(src, PROC_REF(retract)), latched, TIMER_STOPPABLE)

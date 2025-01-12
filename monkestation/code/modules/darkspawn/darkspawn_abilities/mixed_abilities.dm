@@ -158,7 +158,7 @@
 
 	var/mob/living/simple_animal/hostile/illusion/darkspawn/illusion = new(get_turf(host))
 	illusion.Copy_Parent(illusion, duration, 100, 10) //closely follows regular player stats so it's not painfully obvious (still sorta is)
-	illusion.move_to_delay = illusion.movement_delay()
+	illusion.move_to_delay = illusion.cached_multiplicative_slowdown()
 
 //////////////////////////////////////////////////////////////////////////
 //--------------------Summon a sentient distraction---------------------//

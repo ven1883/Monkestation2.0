@@ -104,7 +104,7 @@
 	qdel(beam)
 	. = ..()
 
-/obj/projectile/umbral_tendrils/on_hit(atom/movable/target, blocked = FALSE)
+/obj/projectile/umbral_tendrils/on_hit(/atom/movable/target, blocked = 0, pierce_hit)
 	if(blocked >= 100)
 		return
 	. = TRUE

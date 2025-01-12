@@ -18,5 +18,11 @@
 //TODO: ensure indomitable properly sets move mode
 
 //TODO: holy sweet mother of jesus the entire antag resource system and all their fucking subparts
+
+//TODO: just so much movement speed shit
+
+//TODO: basicmob ventcrawl
+
+//TODO: move movespeed mults to a designated file later
 // COMSIG_MIND_SPEND_ANTAG_RESOURCE
 //six quadrillion other things I forgot

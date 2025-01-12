@@ -1,20 +1,21 @@
 //////////Darkspawn specific illusions//////////////
-/mob/living/simple_animal/hostile/illusion/darkspawn //simulacrum version
+/mob/living/basic/hostile/illusion/darkspawn //simulacrum version
 	desc = "They have a weird shimmering to them."
 	maxHealth = 100
 	health = 100
 	pressure_resistance = INFINITY
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
-	minbodytemp = 0
-	maxbodytemp = INFINITY
+	minimum_survivable_temperature = 0
+	maximum_survivable_temperature = INFINITY
 
 	speed = -1
-	pass_flags = PASSTABLE | PASSMOB | PASSDOOR | PASSMACHINES | PASSMECH | PASSCOMPUTER | PASSGRILLE | PASSGLASS
-	ventcrawler = TRUE
+	pass_flags = PASSTABLE | PASSMOB | PASSDOORS | PASSMACHINES | PASSMECH | PASSSTRUCTURES | PASSGRILLE | PASSGLASS
+	// ventcrawler = TRUE //fuck
 
 	attack_sound = 'sound/magic/voidblink.ogg'
-	deathsound = 'sound/ambience/antag/darkspawn/magic/devour_will_victim.ogg'
-	attacktext = "gores"
+	death_sound = 'sound/ambience/antag/darkspawn/magic/devour_will_victim.ogg'
+	attack_verb_continuous = "gores"
+	attack_verb_simple = "gore"
 	bubble_icon = BUBBLE_DARKSPAWN
 
 	lighting_cutoff_red = 12

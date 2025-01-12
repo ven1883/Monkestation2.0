@@ -422,7 +422,7 @@
 	. = ..()
 	if(isliving(owner))
 		var/mob/living/target = owner
-		target.SetDaze(5000 SECONDS, TRUE, TRUE)
+		//target.SetDaze(5000 SECONDS, TRUE, TRUE) // these have no equivalent
 		ADD_TRAIT(target, TRAIT_PUSHIMMUNE, type)
 		target.move_resist = INFINITY
 		addtimer(CALLBACK(src, PROC_REF(unlock), target), 5 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
@@ -430,7 +430,7 @@
 /datum/action/cooldown/spell/aoe/taunt/proc/unlock(mob/living/target)
 	REMOVE_TRAIT(target, TRAIT_PUSHIMMUNE, type)
 	target.move_resist = initial(target.move_resist)
-	target.SetDaze(0, TRUE, TRUE)
+	//target.SetDaze(0, TRUE, TRUE) // no equiv
 
 /datum/action/cooldown/spell/aoe/taunt/cast_on_thing_in_aoe(atom/victim, atom/caster)
 	if(!isliving(victim) || !can_see(caster, victim))

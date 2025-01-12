@@ -60,6 +60,11 @@
 
 #define MODE_CUSTOM_SAY_ERASE_INPUT "erase_input"
 
+//monke edit: no idea where else to put this
+#define MODE_DARKSPAWN "mindlink"
+#define MODE_KEY_DARKSPAWN  "w"
+#define MODE_TOKEN_DARKSPAWN  ":w"
+
 //Spans. Robot speech, italics, etc. Applied in compose_message().
 #define SPAN_ROBOT "robot"
 #define SPAN_YELL "yell"
@@ -73,7 +78,9 @@
 #define SPAN_TAPE_RECORDER "tape_recorder"
 #define SPAN_HELIUM "small"
 #define SPAN_SOAPBOX "soapbox"
-#define SPAN_BOLD "bold" // monkestation addition
+// monkestation additions
+#define SPAN_BOLD "bold"
+#define BUBBLE_DARKSPAWN "darkspawn"
 
 //bitflag #defines for return value of the radio() proc.
 #define ITALICS (1<<0)

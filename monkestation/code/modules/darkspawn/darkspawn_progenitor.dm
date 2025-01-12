@@ -165,7 +165,7 @@
 //////////////////////////////////////////////////////////////////////////
 //--------------------------Ignoring physics----------------------------//
 //////////////////////////////////////////////////////////////////////////
-/mob/living/simple_animal/hostile/darkspawn_progenitor/Process_Spacemove()
+/mob/living/simple_animal/hostile/darkspawn_progenitor/Process_Spacemove(movement_dir, continuous_move)
 	return TRUE
 
 /mob/living/simple_animal/hostile/darkspawn_progenitor/narsie_act()
@@ -180,7 +180,7 @@
 /mob/living/simple_animal/hostile/darkspawn_progenitor/ex_act() //sorry no bombs
 	return
 
-/mob/living/simple_animal/hostile/darkspawn_progenitor/gib(no_brain, no_organs, no_bodyparts, no_items) //no shuttlegib either
+/mob/living/simple_animal/hostile/darkspawn_progenitor/gib(no_brain, no_organs, no_bodyparts, safe_gib) //no shuttlegib either
 	return
 
 //////////////////////////////////////////////////////////////////////////

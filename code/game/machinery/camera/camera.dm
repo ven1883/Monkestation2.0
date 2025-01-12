@@ -43,6 +43,11 @@
 	/// A copy of the last paper object that was shown to this camera.
 	var/obj/item/paper/last_shown_paper
 
+	//monke edit: yogs
+	//Reference to the obj/mob we're built into
+	var/built_in
+	var/datum/cameranet/camnet
+
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/camera, 0)
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/camera/autoname, 0)
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/camera/emp_proof, 0)

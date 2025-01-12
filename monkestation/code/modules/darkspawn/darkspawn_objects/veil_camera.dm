@@ -14,7 +14,7 @@ GLOBAL_DATUM_INIT(thrallnet, /datum/cameranet/darkspawn, new)
 	integrity_failure = 0
 	light_power = -1
 	light_color = COLOR_VELVET
-	light_system = MOVABLE_LIGHT //it's not movable, but the new system looks nicer for this purpose
+	light_system = OVERLAY_LIGHT //it's not movable, but the new system looks nicer for this purpose
 	networks = list(ROLE_DARKSPAWN)
 	clicksound = "crawling_shadows_walk"
 	jump_action = /datum/action/innate/camera_jump/darkspawn

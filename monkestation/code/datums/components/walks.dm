@@ -52,37 +52,37 @@
 	if(world.time < move_delay) //do not move anything ahead of this check please
 		return TRUE
 
-	var/mob/living/L = parent
-	if(!isshadowperson(L))
+	var/mob/living/owner = parent
+	if(!isshadowperson(owner))
 		return FALSE
-	var/turf/T = get_step(L, direction)
-	L.setDir(direction)
-	if(!T)
+	var/turf/target_tile = get_step(owner, direction)
+	owner.setDir(direction)
+	if(!target_tile)
 		return
 
 	//copied from mob_movement.dm to add proper movement delay to shadow walking
 	var/old_move_delay = move_delay
 	move_delay = world.time + world.tick_lag //this is here because Move() can now be called mutiple times per tick
-	var/add_delay = L.movement_delay()
-	L.set_glide_size(DELAY_TO_GLIDE_SIZE(add_delay * (((direction & 3) && (direction & 12)) ? 2 : 1))) // set it now in case of pulled objects
-	if(old_move_delay + (add_delay*MOVEMENT_DELAY_BUFFER_DELTA) + MOVEMENT_DELAY_BUFFER > world.time)
+	var/add_delay = owner.cached_multiplicative_slowdown //idk
+	owner.set_glide_size(DELAY_TO_GLIDE_SIZE(add_delay * (((direction & 3) && (direction & 12)) ? 2 : 1))) // set it now in case of pulled objects
+	if(old_move_delay + (add_delay* 1.25) + 75 > world.time)
 		move_delay = old_move_delay
 	else
 		move_delay = world.time
 
-	var/allowed = can_walk(L, T)
+	var/allowed = can_walk(owner, target_tile)
 	switch(allowed)
 		if(DEFER_MOVE)
 			return FALSE
 		if(MOVE_NOT_ALLOWED)
 			return TRUE
 		if(MOVE_ALLOWED)
-			preprocess_move(L, T)
-			L.forceMove(T)
-			finalize_move(L, T)
+			preprocess_move(owner, target_tile)
+			owner.forceMove(target_tile)
+			finalize_move(owner, target_tile)
 			if(direction & (direction - 1)) //extra delay for diagonals
-				add_delay *= SQRT_2 // sqrt(2)
-			L.set_glide_size(DELAY_TO_GLIDE_SIZE(add_delay))
+				add_delay *= sqrt(2)
+			owner.set_glide_size(DELAY_TO_GLIDE_SIZE(add_delay))
 			move_delay += add_delay
 			return TRUE
 

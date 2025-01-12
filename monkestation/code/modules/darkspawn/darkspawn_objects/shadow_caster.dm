@@ -3,11 +3,11 @@
 	desc = "A bow made of solid darkness. The arrows it shoots seem to suck light out of the surroundings."
 	icon = 'monkestation/icons/obj/darkspawn_items.dmi'
 	icon_state = "shadow_caster"
-	inhand_inhand_icon_state = "shadow_caster"
+	inhand_icon_state = "shadow_caster"
 	lefthand_file = 'monkestation/icons/mob/inhands/antag/darkspawn_lefthand.dmi'
 	righthand_file = 'monkestation/icons/mob/inhands/antag/darkspawn_righthand.dmi'
 	mag_type = /obj/item/ammo_box/magazine/internal/bow/shadow
-	no_pin_required = TRUE
+	pinless = TRUE
 	recharge_time = 2 SECONDS
 	trigger_guard = TRIGGER_GUARD_ALLOW_ALL
 

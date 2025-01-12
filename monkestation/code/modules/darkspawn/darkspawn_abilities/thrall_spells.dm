@@ -255,7 +255,7 @@
 	armour_penetration = 100
 	speed = 1
 	damage_type = BRUTE
-	pass_flags = PASSMACHINE | PASSCOMPUTER | PASSTABLE
+	pass_flags = PASSMACHINE | PASSSTRUCTURE | PASSTABLE
 	range = 10
 
 /obj/projectile/magic/mindblast/Initialize(mapload)
