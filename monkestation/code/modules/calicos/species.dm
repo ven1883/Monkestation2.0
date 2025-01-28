@@ -6,7 +6,8 @@
 	visual_gender = FALSE
 	inherent_traits = list(
 		TRAIT_NO_UNDERWEAR,
-		TRAIT_DWARF
+		TRAIT_DWARF,
+		TRAIT_FREERUNNING
 	)
 	external_organs = list()
 
@@ -22,6 +23,10 @@
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/calico,
 	)
 
+	coldmod = 0.6
+	heatmod = 1.2
+	burnmod = 1.2
+
 /*
 /datum/species/calico/random_name(gender,unique,lastname)
 	if(unique)
@@ -36,7 +41,6 @@
 */
 
 /datum/species/calico/get_species_description()
-	return "The militaristic Cat People:tm: hail originally from Tizira, but have grown \
-		throughout their centuries in the stars to possess a large spacefaring \
-		empire: though now they must contend with their younger, more \
-		technologically advanced Human neighbours."
+	return "Calicos are a gentically distinct derivative of domestic cats hailing from earth. \
+			It is not known if they are the results of genetic experimentaion or natural evolution,	\
+			but they are here to stay as crew."
