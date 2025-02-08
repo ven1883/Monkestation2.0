@@ -3,11 +3,6 @@
 #define KNOCK_COMBO "HD"
 #define GRASP_COMBO "DDG"
 
-/datum/martial_art/shockstar/debug
-	name = "debug Shocking Star"
-	charges = 50
-	max_charges = 50
-
 /datum/martial_art/shockstar
 	name = "Shocking Star"
 	id = MARTIALART_SHOCKSTAR
@@ -205,7 +200,7 @@
 				carbon_target.emote("scream")
 
 				//insurance policy since heart attacks seem to be broken
-				carbon_target.adjustOrganLoss(ORGAN_SLOT_HEART, 60, 100)
+				carbon_target.adjustOrganLoss(ORGAN_SLOT_HEART, 60, 200)
 
 			playsound(attacker, pick(aggressive_sm), 100)
 
@@ -219,12 +214,16 @@
 	playsound(defender, 'sound/machines/defib_zap.ogg', 60)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_SMASH)
 
-
 /datum/martial_art/shockstar/help_act(mob/living/attacker, mob/living/defender)
 	if (defender.health <= defender.crit_threshold || (attacker.pulling == defender && attacker.grab_state >= GRAB_NECK) || defender.IsSleeping())
-		if (do_after(attacker, 5 SECONDS) && !is_absorbed(defender) && istype(defender, /mob/living/carbon/human))
-			defender.adjustOxyLoss(60)
-			absorb_target(defender)
+		if(!is_absorbed(defender) && istype(defender, /mob/living/carbon/human))
+			if (do_after(attacker, 5 SECONDS))
+				defender.adjustOxyLoss(200) //die
+				absorb_target(defender)
+				attacker.balloon_alert(attacker, "signature absorbed")
+				to_chat(attacker, span_brass("We harvest a Nioelectric signature. Our power grows."))
+
+		else to_chat(attacker, span_warning("[defender] does not have a usable Nioelectric signature. Ignore them."))
 
 /datum/martial_art/shockstar/harm_act(mob/living/carbon/human/attacker, mob/living/carbon/human/defender)
 	add_to_streak("H",defender)
@@ -259,7 +258,7 @@
 	calculate_mults()
 
 /datum/martial_art/shockstar/proc/calculate_mults()
-	damage_mult = 1 + (charges * 0.2)
+	damage_mult = clamp((charges * 0.2), 1, 2.5)
 
 	//fuck it we do this the bad way
 	if (charges >= 8)
@@ -279,6 +278,8 @@
 /datum/martial_art/shockstar/proc/increment_counter()
 	++combo_count
 	if (combo_count >= 3)
+		to_chat(usr, span_brass("We've gained a charge. Use it well."))
+
 		increment_charge()
 		combo_count = 0
 
