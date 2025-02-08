@@ -104,10 +104,11 @@
 	defender.apply_damage(10 * damage_mult, BURN, BODY_ZONE_HEAD)
 	defender.adjust_dizzy_up_to(1, 10)
 
-	playsound(defender, 'sound/effects/wounds/crack2.ogg', 70)
-	playsound(attacker, pick(crystal_pops), 80)
+	playsound(defender, 'sound/effects/wounds/crack2.ogg', 50)
+	playsound(attacker, pick(crystal_pops), 75)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_PUNCH)
 	increment_counter()
+	log_combat(attacker, defender, "grasped (Shockstar)", name)
 
 // DH
 // Crack; disarms the target and temporarily blinds them.
