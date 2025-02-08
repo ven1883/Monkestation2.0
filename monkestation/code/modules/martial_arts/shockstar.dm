@@ -149,6 +149,7 @@
 	playsound(attacker, 'sound/effects/bamf.ogg', 50)
 	playsound(attacker, 'sound/weapons/contractorbatonextend.ogg', 80)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_CLAW)
+	log_combat(attacker, defender, "cracked (Shockstar)", name)
 
 // HD
 // Knock; kicks the target three tiles away and temporarily stuns them. Serves a similar role to Tail Sweep from Trbial Claw.
@@ -174,6 +175,7 @@
 	increment_counter()
 	playsound(attacker, 'sound/effects/hit_kick.ogg', 50, TRUE)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_SLASH)
+	log_combat(attacker, defender, "knocked (Shockstar)", name)
 
 
 // DDG
@@ -213,6 +215,7 @@
 	increment_counter()
 	playsound(defender, 'sound/machines/defib_zap.ogg', 60)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_SMASH)
+	log_combat(attacker, defender, "grasped (Shockstar)", name)
 
 /datum/martial_art/shockstar/help_act(mob/living/attacker, mob/living/defender)
 	if (defender.health <= defender.crit_threshold || (attacker.pulling == defender && attacker.grab_state >= GRAB_NECK) || defender.IsSleeping())
@@ -222,6 +225,7 @@
 				absorb_target(defender)
 				attacker.balloon_alert(attacker, "signature absorbed")
 				to_chat(attacker, span_brass("We harvest a Nioelectric signature. Our power grows."))
+				log_combat(attacker, defender, "absorbed (Shockstar)", name)
 
 		else to_chat(attacker, span_warning("[defender] does not have a usable Nioelectric signature. Ignore them."))
 
