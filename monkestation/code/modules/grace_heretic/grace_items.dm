@@ -1,16 +1,16 @@
 // Eldritch armor. Looks cool, hood lets you cast heretic spells.
 /obj/item/clothing/head/hooded/cult_hoodie/eldritch/martial
 	name = "ominous hood"
-	icon = 'monkestation/code/modules/martial_heretic/armor.dmi'
-	worn_icon = 'monkestation/code/modules/martial_heretic/armor.dmi'
+	icon = 'monkestation/code/modules/grace_heretic/armor.dmi'
+	worn_icon = 'monkestation/code/modules/grace_heretic/armor.dmi'
 	icon_state = "hood"
 	desc = "A torn, dust-caked hood. Strange eyes line the inside."
 
 /obj/item/clothing/suit/hooded/cultrobes/eldritch/martial
 	name = "ominous armor"
 	desc = "A ragged, dusty set of robes. Strange eyes line the inside."
-	icon = 'monkestation/code/modules/martial_heretic/armor.dmi'
-	worn_icon = 'monkestation/code/modules/martial_heretic/armor.dmi'
+	icon = 'monkestation/code/modules/grace_heretic/armor.dmi'
+	worn_icon = 'monkestation/code/modules/grace_heretic/armor.dmi'
 	icon_state = "armor_hood"
 	hood_up_affix = "_up"
 	hood_down_overlay_suffix = ""
@@ -55,17 +55,14 @@
 	. = ..()
 
 /obj/item/book/granter/martial/grace/can_learn(mob/user)
-	if(!IS_HERETIC_OR_MONSTER(user) && !istype(user.mind.martial_art, martial))
-		to_chat(user, span_warning("You try to read the book but can't comprehend any of it."))
-		return FALSE
-	else if (istype(user.mind.martial_art, martial))
-		break_and_run(user)
-
+	if (IS_HERETIC_OR_MONSTER(user) && !istype(user.mind.martial_art, martial))
+		return TRUE
 	else
+		break_and_run(user)
 		return FALSE
 
 /obj/item/book/granter/martial/grace/proc/break_and_run(mob/living/user)
-	//1:1 copy of blade break code
+
 
 	var/turf/safe_turf = find_safe_turf(zlevels = z, extended_safety_checks = TRUE)
 	if(IS_HERETIC_OR_MONSTER(user))
@@ -78,3 +75,36 @@
 	playsound(src, SFX_SHATTER, 70, TRUE)
 	qdel(src)
 	return FALSE
+
+/obj/item/book/granter/martial/grace/attack_self(mob/living/user)
+	if(reading)
+		to_chat(user, span_warning("You're already reading this!"))
+		return FALSE
+	if(!isliving(user))
+		return FALSE
+	if(!IS_HERETIC_OR_MONSTER(user))
+		if(user.is_blind())
+			to_chat(user, span_warning("You are blind and can't read anything!"))
+			return FALSE
+		if(!user.can_read(src))
+			return FALSE
+	if(!can_learn(user))
+		return FALSE
+
+	if(uses <= 0)
+		recoil(user)
+		return FALSE
+
+	on_reading_start(user)
+	reading = TRUE
+	for(var/i in 1 to pages_to_mastery)
+		if(!turn_page(user))
+			on_reading_stopped()
+			reading = FALSE
+			return
+	if(do_after(user, 5 SECONDS, src))
+		uses--
+		on_reading_finished(user)
+	reading = FALSE
+
+	return TRUE
