@@ -27,7 +27,7 @@
 	next_knowledge = list(/datum/heretic_knowledge/graceful_grasp)
 	required_atoms = list(
 		/obj/item/pen,
-		list(/obj/item/paperwork, /obj/item/book) = 2,
+		list(/obj/item/paper, /obj/item/book) = 2,
 	)
 	result_atoms = list(/obj/item/book/granter/martial/grace)
 	limit = 1
@@ -69,14 +69,15 @@
 	desc = "Sprint with purpose. You will knock those in your path away."
 	gain_text = "bitches be like \"you're so slow\" bitch I could throw you"
 	next_knowledge = /datum/heretic_knowledge/mark/martial_mark
+	//add sidepath stuff here
 	spell_to_add = /datum/action/cooldown/mob_cooldown/charge/basic_charge/dash
 	cost = 1
 	route = PATH_GRACE
 
 /datum/heretic_knowledge/mark/martial_mark
 	name = "Mark of Blood"
-	desc = "Ythe thingy"
-	gain_text = "HATE HATE HATE DO YOU KNOW HOW MUCH  HATE????"
+	desc = "the thingy"
+	gain_text = "HATE HATE HATE DO YOU KNOW HOW MUCH I HATE????"
 	next_knowledge = list(/datum/heretic_knowledge/knowledge_ritual/grace)
 	route = PATH_GRACE
 	mark_type = /datum/status_effect/eldritch/grace
@@ -92,6 +93,67 @@
 		grasp.next_use_time = min(round(grasp.next_use_time - grasp.cooldown_time * 0.75, 0), 0)
 		grasp.build_all_button_icons()
 
-/datum/heretic_knowledge/knowledge_ritual/grace
-	next_knowledge = list(/datum/heretic_knowledge/spell/fire_blast)
+/datum/heretic_knowledge/knowledge_ritual/grace //beloathed
+	next_knowledge = list(/datum/heretic_knowledge/shoulder)
 	route = PATH_GRACE
+
+/datum/heretic_knowledge/shoulder
+	name = "Shoulder check"
+	desc = "i thought you had stronger brakes sorry"
+	gain_text = "Shoulder check security for 50 credits"
+	next_knowledge = /datum/heretic_knowledge/agile_armor
+	cost = 1
+	route = PATH_GRACE
+	var/had_heavy_dash = FALSE //presumably someone could have the trait for a heavy dash without being a heretic
+
+/datum/heretic_knowledge/shoulder/on_gain(mob/user, datum/antagonist/heretic/our_heretic)
+	//add trait stuff
+
+/datum/heretic_knowledge/shoulder/on_lose(mob/user, datum/antagonist/heretic/our_heretic)
+	//add trait stuff
+
+/datum/heretic_knowledge/agile_armor
+	name = "cool robes bro"
+	desc = "gold plated lamborghini"
+	gain_text = "hollywood hills"
+	next_knowledge = /datum/heretic_knowledge/strength
+	required_atoms = list(
+		list(/obj/item/stack/sheet/mineral/gold, /obj/item/stack/sheet/mineral/silver),
+		/obj/item/clothing/suit //any outerwear
+	)
+	result_atoms = list(/obj/item/clothing/suit/hooded/cultrobes/eldritch/martial)
+	cost = 1
+	route = PATH_GRACE
+
+/datum/heretic_knowledge/strength
+	name = "Eldritch Strength"
+	desc = "the dance"
+	gain_text = "you know the club"
+	next_knowledge = /datum/heretic_knowledge/spell/crush
+	cost = 1
+	route = PATH_GRACE
+
+/datum/heretic_knowledge/strength/on_gain(mob/user, datum/antagonist/heretic/our_heretic)
+
+/datum/heretic_knowledge/strength/on_lose(mob/user, datum/antagonist/heretic/our_heretic)
+
+/datum/heretic_knowledge/spell/crush
+	name = "Crush"
+	desc = "big stomp"
+	gain_text = "clown shoes but cool"
+	next_knowledge = /datum/heretic_knowledge/ultimate/grace_final
+	//spell_to_add =
+	cost = 1
+	route = PATH_GRACE
+
+/datum/heretic_knowledge/ultimate/grace_final
+	name = "oh god"
+	desc = "oh fuck"
+	gain_text = "oh shit"
+	route = PATH_GRACE
+	//ascension_achievement = /datum/award/achievement/misc/ash_ascension
+	//announcement_text = "spooper"
+	//announcement_sound = ''
+
+/datum/heretic_knowledge/ultimate/grace_final/is_valid_sacrifice(mob/living/carbon/human/sacrifice)
+	return

@@ -15,7 +15,9 @@
 	hood_up_affix = "_up"
 	hood_down_overlay_suffix = ""
 	inhand_icon_state = null
-	allowed = list(/obj/item/melee/sickly_blade)
+	body_parts_covered = CHEST|GROIN|ARMS|LEGS
+	flags_inv = NULL
+	allowed = list(/obj/item/melee/sickly_blade, /obj/item/book/granter/martial/grace)
 	hoodtype = /obj/item/clothing/head/hooded/cult_hoodie/eldritch/martial
 	// Slightly better than normal cult robes
 	armor_type = /datum/armor/cultrobes_eldritch/martial
@@ -39,8 +41,8 @@
 	martial_name = "grace"
 	desc = "A book filled with unknowable language. Your eyes burn."
 	greet = span_brass("")
-	icon = 'icons/obj/library.dmi'
-	icon_state = "book1"
+	icon = 'monkestation/code/modules/grace_heretic/book.dmi'
+	icon_state = "book"
 	remarks = list(
 		"I must prove myself worthy to the masters of the Knoises clan...",
 		"Use your tail to surprise any enemy...",

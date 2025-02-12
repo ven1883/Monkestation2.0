@@ -77,7 +77,7 @@
 	return FALSE
 
 /datum/martial_art/grace/help_act(mob/living/attacker, mob/living/defender)
-	add_to_streak("A",defender)
+	add_to_streak("E",defender)
 	if(check_streak(attacker, defender))
 		return TRUE
 	return FALSE
