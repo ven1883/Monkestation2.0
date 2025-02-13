@@ -11,12 +11,12 @@
 	desc = "A ragged, dusty set of robes. Strange eyes line the inside."
 	icon = 'monkestation/code/modules/grace_heretic/armor.dmi'
 	worn_icon = 'monkestation/code/modules/grace_heretic/armor.dmi'
-	icon_state = "armor_hood"
-	hood_up_affix = "_up"
+	icon_state = "armor"
+	hood_up_affix = "_hood"
 	hood_down_overlay_suffix = ""
 	inhand_icon_state = null
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS
-	flags_inv = NULL
+	flags_inv = HIDEJUMPSUIT
 	allowed = list(/obj/item/melee/sickly_blade, /obj/item/book/granter/martial/grace)
 	hoodtype = /obj/item/clothing/head/hooded/cult_hoodie/eldritch/martial
 	// Slightly better than normal cult robes
