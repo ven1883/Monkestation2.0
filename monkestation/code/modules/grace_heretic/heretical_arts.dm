@@ -1,5 +1,3 @@
-//ported directly from Bee, cleaned up and updated to function with TG. thanks bee!
-
 #define COMB1 "DH"
 #define COMB2 "HH"
 #define COMB3 "HD"
@@ -59,24 +57,92 @@
 /datum/martial_art/grace/proc/comb4(mob/living/attacker, mob/living/defender)
 
 /datum/martial_art/grace/harm_act(mob/living/attacker, mob/living/defender)
+	var/critical_wound_type = /datum/wound/blunt/bone/critical
+	var/datum/wound/blunt/bone/rib_smash = new critical_wound_type()
+	var/obj/item/bodypart/chest = defender.get_bodypart(BODY_ZONE_CHEST)
+
+	var/mark = defender.has_status_effect(/datum/status_effect/eldritch/grace)
+
+	var/is_smashed = FALSE
+	if(mark)
+		if(LAZYLEN(chest?.wounds))
+			var/datum/wound/blunt/bone/critical/ribs = locate() in chest.wounds
+			if(ribs)
+				is_smashed = TRUE
+
+		if(is_smashed == FALSE)
+			rib_smash.apply_wound(chest)
+			defender.apply_damage(15, BRUTE, BODY_ZONE_CHEST)
+			defender.Paralyze(1 SECONDS)
+			if(attacker.pulling == defender)
+				attacker.stop_pulling()
+		else
+			var/atom/throw_target = get_edge_target_turf(defender, attacker.dir)
+			defender.apply_damage(30, BRUTE, BODY_ZONE_CHEST)
+			if(defender.losebreath <= 10)
+				defender.losebreath = clamp(defender.losebreath + 2, 0, 10)
+			defender.adjustOxyLoss(10)
+			defender.Knockdown(1 SECONDS)
+			defender.Paralyze(2 SECONDS)
+			defender.throw_at(throw_target, 2, 4, attacker)
+
+		qdel(mark)
+
 	add_to_streak("H",defender)
 	if(check_streak(attacker, defender))
 		return TRUE
 	return FALSE
 
 /datum/martial_art/grace/disarm_act(mob/living/attacker, mob/living/defender)
+	var/mark = defender.has_status_effect(/datum/status_effect/eldritch/grace)
+
+	if(mark)
+		var/atom/throw_target = get_edge_target_turf(defender, attacker.dir)
+		defender.Knockdown(2 SECONDS)
+		defender.throw_at(throw_target, 5, 4, attacker)
+		defender.adjust_dizzy(5 SECONDS)
+		defender.adjust_temp_blindness(2 SECONDS)
+
+	qdel(mark)
+
 	add_to_streak("D",defender)
 	if(check_streak(attacker, defender))
 		return TRUE
 	return FALSE
 
 /datum/martial_art/grace/grab_act(mob/living/attacker, mob/living/defender)
+	var/mark = defender.has_status_effect(/datum/status_effect/eldritch/grace)
+
+	if(mark)
+		defender.Paralyze(5 SECONDS)
+		defender.Knockdown(5 SECONDS)
+		attacker.buckle_mob(defender, TRUE, TRUE, CARRIER_NEEDS_ARM)
+
+	qdel(mark)
+
 	add_to_streak("G",defender)
 	if(check_streak(attacker, defender))
 		return TRUE
 	return FALSE
 
 /datum/martial_art/grace/help_act(mob/living/attacker, mob/living/defender)
+	var/mark = defender.has_status_effect(/datum/status_effect/eldritch/grace)
+
+	if(mark && attacker != defender)
+		defender.heal_overall_damage(30, 20, 80)
+		defender.SetKnockdown(0)
+		defender.apply_status_effect(/datum/status_effect/pacify/grace_honor)
+		attacker.emote("handshake [defender]")
+		if(attacker.pulling != defender)
+			attacker.stop_pulling()
+			defender.grabbedby(attacker, TRUE)
+			attacker.setGrabState(GRAB_PASSIVE)
+
+		defender.balloon_alert(defender, "healed")
+		defender.balloon_alert(attacker, "power gifted")
+
+	qdel(mark)
+
 	add_to_streak("E",defender)
 	if(check_streak(attacker, defender))
 		return TRUE
@@ -88,3 +154,8 @@
 	set category = "Tribal Claw"
 
 	to_chat(usr, "<b><i>You retreat inward and recall the teachings of the Tribal Claw...</i></b>")
+
+#undef COMB1
+#undef COMB2
+#undef COMB3
+#undef COMB4
