@@ -63,4 +63,5 @@
 	charging -= charger
 
 /datum/status_effect/eldritch/grace
-	effect_icon_state = "emark_RING_TEMPLATE"
+	effect_icon = 'monkestation/code/modules/grace_heretic/mark.dmi'
+	effect_icon_state = "emark_grace"
