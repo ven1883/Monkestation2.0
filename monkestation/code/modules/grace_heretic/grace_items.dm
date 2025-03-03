@@ -110,3 +110,17 @@
 	reading = FALSE
 
 	return TRUE
+
+/obj/item/clothing/gloves/eldritch_gauntlets
+	name = "eldritch gauntlets"
+	desc = "Heavy gauntlets made from an unknown metal. They pulsate."
+	icon = 'monkestation/code/modules/grace_heretic/gloves.dmi'
+	icon_state = "icon"
+	inhand_icon_state = "equiped"
+	greyscale_colors = null
+	siemens_coefficient = 0
+
+	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
+
+	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
+	resistance_flags = NONE

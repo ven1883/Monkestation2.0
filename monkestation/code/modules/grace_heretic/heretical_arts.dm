@@ -31,19 +31,19 @@
 
 /datum/martial_art/grace/proc/check_streak(mob/living/attacker, mob/living/defender)
 	if(findtext(streak, COMB1))
-		reset_streak()
-		//tailSweep(attacker, defender)
+		//reset_streak()
+		comb1(attacker, defender)
 		return TRUE
 	if(findtext(streak, COMB2))
-		reset_streak()
+		//reset_streak()
 		//faceScratch(attacker, defender)
 		return TRUE
 	if(findtext(streak, COMB3))
-		reset_streak()
+		//reset_streak()
 		//jugularCut(attacker, defender)
 		return TRUE
 	if(findtext(streak, COMB4))
-		reset_streak()
+		//reset_streak()
 		//tailGrab(attacker, defender)
 		return TRUE
 	return FALSE
@@ -87,6 +87,7 @@
 			defender.throw_at(throw_target, 2, 4, attacker)
 
 		qdel(mark)
+		log_combat(attacker, defender, "gut punched (Grace Heretic)", name)
 
 	add_to_streak("H",defender)
 	if(check_streak(attacker, defender))
@@ -103,7 +104,8 @@
 		defender.adjust_dizzy(5 SECONDS)
 		defender.adjust_temp_blindness(2 SECONDS)
 
-	qdel(mark)
+		qdel(mark)
+		log_combat(attacker, defender, "threw (Grace Heretic)", name)
 
 	add_to_streak("D",defender)
 	if(check_streak(attacker, defender))
@@ -118,7 +120,8 @@
 		defender.Knockdown(5 SECONDS)
 		attacker.buckle_mob(defender, TRUE, TRUE, CARRIER_NEEDS_ARM)
 
-	qdel(mark)
+		qdel(mark)
+		log_combat(attacker, defender, "snatched (Grace Heretic)", name)
 
 	add_to_streak("G",defender)
 	if(check_streak(attacker, defender))
@@ -141,7 +144,8 @@
 		defender.balloon_alert(defender, "healed")
 		defender.balloon_alert(attacker, "power gifted")
 
-	qdel(mark)
+		qdel(mark)
+		log_combat(attacker, defender, "armstronged (Grace Heretic)", name)
 
 	add_to_streak("E",defender)
 	if(check_streak(attacker, defender))
@@ -149,11 +153,13 @@
 	return FALSE
 
 /mob/living/carbon/human/proc/grace_help()
-	set name = "Recall Teachings"
-	set desc = "Remember the martial techniques of the Tribal Claw"
-	set category = "Tribal Claw"
+	set name = "Pierce the Veil"
+	set desc = "Recall the Grail's power"
+	set category = "Grail"
 
-	to_chat(usr, "<b><i>You retreat inward and recall the teachings of the Tribal Claw...</i></b>")
+	to_chat(usr, "<b><i>You pierce the Veil of the Mansus to </i></b>")
+	if(HAS_TRAIT(usr, TRAIT_ELDRITCH_STRENGTH))
+		to_chat(usr, "the thingy works")
 
 #undef COMB1
 #undef COMB2

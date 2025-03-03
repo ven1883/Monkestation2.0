@@ -59,7 +59,7 @@
 
 	to_chat(target, span_danger("[source] picks you up and lifts you into the air!"))
 	target.grabbedby(source, TRUE)
-	source.setGrabState(GRAB_AGGRESSIVE)
+	source.setGrabState(GRAB_PASSIVE)
 	target.Paralyze(2 SECONDS)
 	target.adjustOxyLoss(30)
 	target.set_eye_blur_if_lower(2 SECONDS)
@@ -68,7 +68,7 @@
 	name = "Rapid Dash"
 	desc = "Sprint with purpose. You will knock those in your path away."
 	gain_text = "bitches be like \"you're so slow\" bitch I could throw you"
-	next_knowledge = /datum/heretic_knowledge/mark/martial_mark
+	next_knowledge = list(/datum/heretic_knowledge/mark/martial_mark)
 	//add sidepath stuff here
 	spell_to_add = /datum/action/cooldown/mob_cooldown/charge/basic_charge/dash
 	cost = 1
@@ -134,14 +134,16 @@
 	route = PATH_GRACE
 
 /datum/heretic_knowledge/strength/on_gain(mob/user, datum/antagonist/heretic/our_heretic)
+	ADD_TRAIT(user, TRAIT_ELDRITCH_STRENGTH, TRAIT_GENERIC)
 
 /datum/heretic_knowledge/strength/on_lose(mob/user, datum/antagonist/heretic/our_heretic)
+	REMOVE_TRAIT(user, TRAIT_ELDRITCH_STRENGTH, TRAIT_GENERIC)
 
 /datum/heretic_knowledge/spell/crush
 	name = "Crush"
 	desc = "big stomp"
 	gain_text = "clown shoes but cool"
-	next_knowledge = /datum/heretic_knowledge/ultimate/grace_final
+	next_knowledge = list(/datum/heretic_knowledge/ultimate/grace_final)
 	//spell_to_add =
 	cost = 1
 	route = PATH_GRACE
