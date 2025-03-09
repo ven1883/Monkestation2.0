@@ -1,7 +1,7 @@
-#define COMB1 "DH"
-#define COMB2 "HH"
+#define COMB1 "HH"
+#define COMB2 "DH"
 #define COMB3 "HD"
-#define COMB4 "DDG"
+#define HEADKICK "GD"
 
 /datum/martial_art/grace
 	name = "Grace"
@@ -13,7 +13,7 @@
 	smashes_tables = TRUE //:3
 	display_combos = TRUE
 
-	block_chance = 100  //you can use throw mode to block melee attacks...
+	block_chance = 50  //you can use throw mode to block melee attacks...
 
 	//stuff for heretic growth
 
@@ -42,9 +42,9 @@
 		//reset_streak()
 		//jugularCut(attacker, defender)
 		return TRUE
-	if(findtext(streak, COMB4))
-		//reset_streak()
-		//tailGrab(attacker, defender)
+	if(findtext(streak, HEADKICK))
+		reset_streak()
+		headkick(attacker, defender)
 		return TRUE
 	return FALSE
 
@@ -54,7 +54,38 @@
 
 /datum/martial_art/grace/proc/comb3(mob/living/attacker, mob/living/defender)
 
-/datum/martial_art/grace/proc/comb4(mob/living/attacker, mob/living/defender)
+/datum/martial_art/grace/proc/headkick(mob/living/attacker, mob/living/defender)
+	if(HAS_TRAIT(attacker, TRAIT_ELDRITCH_STRENGTH))
+		defender.soundbang_act(5, 30, 5, 5)
+		defender.apply_damage(15, BRUTE, BODY_ZONE_HEAD)
+		defender.drop_all_held_items()
+
+		attacker.spin(4, 1)
+		attacker.Move(get_turf(defender), get_dir(get_turf(attacker), get_turf(defender)))
+
+		playsound(defender, 'sound/effects/wounds/pierce2.ogg', 50)
+		log_combat(attacker, defender, "strong headkicked (Grace Heretic)", name)
+
+		defender.visible_message(
+			span_warning("[attacker] kicks [defender] squarely in the face!"), \
+			span_userdanger("[attacker] kicks you square in the head!"))
+
+	else
+		defender.apply_damage(10, BRUTE, BODY_ZONE_HEAD)
+		defender.Knockdown(5)
+		defender.drop_all_held_items()
+
+		attacker.spin(4, 1)
+		attacker.Move(get_turf(defender), get_dir(get_turf(attacker), get_turf(defender)))
+
+		playsound(defender, 'sound/effects/wounds/pierce1.ogg', 50)
+		log_combat(attacker, defender, "headkicked (Grace Heretic)", name)
+
+		defender.visible_message(
+			span_warning("[attacker] kicks [defender] squarely in the face!"), \
+			span_userdanger("[attacker] kicks you square in the head!"))
+
+
 
 /datum/martial_art/grace/harm_act(mob/living/attacker, mob/living/defender)
 	var/critical_wound_type = /datum/wound/blunt/bone/critical
@@ -81,7 +112,6 @@
 			defender.apply_damage(30, BRUTE, BODY_ZONE_CHEST)
 			if(defender.losebreath <= 10)
 				defender.losebreath = clamp(defender.losebreath + 2, 0, 10)
-			defender.adjustOxyLoss(10)
 			defender.Knockdown(1 SECONDS)
 			defender.Paralyze(2 SECONDS)
 			defender.throw_at(throw_target, 2, 4, attacker)
@@ -164,4 +194,4 @@
 #undef COMB1
 #undef COMB2
 #undef COMB3
-#undef COMB4
+#undef HEADKICK
