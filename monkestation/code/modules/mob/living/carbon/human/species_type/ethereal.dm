@@ -12,6 +12,7 @@
 		/obj/item/organ/external/ethereal_horns = "None",
 		/obj/item/organ/external/tail/ethereal = "None")
 	exotic_bloodtype = /datum/blood_type/crew/ethereal
+	inert_mutation = /datum/mutation/human/overload
 
 	// Body temperature for ethereals is much higher then humans as they like hotter environments
 	bodytemp_normal = (BODYTEMP_NORMAL + 50)
@@ -19,7 +20,6 @@
 	temperature_normalization_speed = 3
 
 	siemens_coeff = 0.5 //They thrive on energy
-	brutemod = 1.25 //They're weak to punches
 	payday_modifier = 1
 	inherent_traits = list(
 		TRAIT_MUTANT_COLORS,
@@ -78,10 +78,10 @@
 	RegisterSignal(ethereal, COMSIG_ATOM_EMAG_ACT, PROC_REF(on_emag_act))
 	RegisterSignal(ethereal, COMSIG_ATOM_EMP_ACT, PROC_REF(on_emp_act))
 	RegisterSignal(ethereal, COMSIG_LIGHT_EATER_ACT, PROC_REF(on_light_eater))
-	RegisterSignal(new_ethereal, COMSIG_ATOM_AFTER_ATTACKEDBY, PROC_REF(on_after_attackedby))
+	RegisterSignal(ethereal, COMSIG_ATOM_SABOTEUR_ACT, PROC_REF(on_saboteur))
+	RegisterSignal(ethereal, COMSIG_ATOM_AFTER_ATTACKEDBY, PROC_REF(on_after_attackedby))
 	ethereal_light = ethereal.mob_light(light_type = /obj/effect/dummy/lighting_obj/moblight/species)
 	spec_updatehealth(ethereal)
-	new_ethereal.set_safe_hunger_level()
 
 	var/obj/item/organ/internal/heart/ethereal/ethereal_heart = new_ethereal.get_organ_slot(ORGAN_SLOT_HEART)
 	ethereal_heart.ethereal_color = default_color
@@ -94,6 +94,7 @@
 	UnregisterSignal(former_ethereal, COMSIG_ATOM_EMAG_ACT)
 	UnregisterSignal(former_ethereal, COMSIG_ATOM_EMP_ACT)
 	UnregisterSignal(former_ethereal, COMSIG_LIGHT_EATER_ACT)
+	UnregisterSignal(former_ethereal, COMSIG_ATOM_SABOTEUR_ACT)
 	UnregisterSignal(former_ethereal, COMSIG_ATOM_AFTER_ATTACKEDBY)
 	QDEL_NULL(ethereal_light)
 	return ..()
@@ -152,6 +153,16 @@
 		if(EMP_HEAVY)
 			addtimer(CALLBACK(src, PROC_REF(stop_emp), H), 20 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE) //We're out for 20 seconds
 
+/datum/species/ethereal/proc/on_saboteur(datum/source, disrupt_duration)
+	SIGNAL_HANDLER
+	var/mob/living/carbon/human/our_target = source
+	EMPeffect = TRUE
+	spec_updatehealth(our_target)
+	to_chat(our_target, span_warning("Something inside of you crackles in a bad way."))
+	our_target.take_bodypart_damage(burn = 3, wound_bonus = CANT_WOUND)
+	addtimer(CALLBACK(src, PROC_REF(stop_emp), our_target), disrupt_duration, TIMER_UNIQUE|TIMER_OVERRIDE)
+	return COMSIG_SABOTEUR_SUCCESS
+
 /datum/species/ethereal/proc/on_emag_act(mob/living/carbon/human/H, mob/user)
 	SIGNAL_HANDLER
 	if(emageffect)
@@ -197,12 +208,25 @@
 
 /datum/species/ethereal/proc/on_after_attackedby(mob/living/lightbulb, obj/item/item, mob/living/user, proximity_flag, click_parameters)
 	SIGNAL_HANDLER
-	var/obj/item/clothing/mask/cigarette/cig = item
-	if(!proximity_flag || !istype(cig) || !istype(user) || cig.lit)
+	if(!proximity_flag || !istype(user))
 		return
-	cig.light()
-	user.visible_message(span_notice("[user] quickly strikes [item] across [lightbulb]'s skin, [lightbulb.p_their()] warmth lighting it!"))
-	return COMPONENT_NO_AFTERATTACK
+
+	if(istype(item, /obj/item/clothing/mask/cigarette))
+		var/obj/item/clothing/mask/cigarette/cig = item
+		if(!cig.lit)
+			cig.light()
+			user.visible_message(span_notice("[user] quickly strikes [item] across [lightbulb]'s skin, [lightbulb.p_their()] warmth lighting it!"))
+			return COMPONENT_NO_AFTERATTACK
+		return
+
+	if(istype(item, /obj/item/match))
+		var/obj/item/match/match = item
+		if(!match.lit)
+			match.matchignite()
+			user.visible_message(span_notice("[user] strikes [item] against [lightbulb], sparking it to life!"))
+			return COMPONENT_NO_AFTERATTACK
+		return
+	return
 
 /datum/species/ethereal/get_species_description()
 	return "Coming from the planet of Sprout, the theocratic ethereals are \

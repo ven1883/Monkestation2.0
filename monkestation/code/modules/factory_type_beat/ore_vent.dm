@@ -286,14 +286,15 @@
 		balloon_alert(user, "scanning...")
 		playsound(src, 'sound/items/timer.ogg', 30, TRUE)
 		if(do_after(user, 4 SECONDS))
+			if(discovered)
+				return
 			discovered = TRUE
 			balloon_alert(user, "vent scanned!")
-		generate_description(user)
-		var/obj/item/card/id/user_id_card = user.get_idcard(TRUE)
-		if(isnull(user_id_card))
-			return
-		user_id_card.registered_account.mining_points += (MINER_POINT_MULTIPLIER)
-		user_id_card.registered_account.bank_card_talk("You've been awarded [MINER_POINT_MULTIPLIER] mining points for discovery of an ore vent.")
+			var/obj/item/card/id/user_id_card = user.get_idcard(TRUE)
+			if(!isnull(user_id_card))
+				user_id_card.registered_account.mining_points += (MINER_POINT_MULTIPLIER)
+				user_id_card.registered_account.bank_card_talk("You've been awarded [MINER_POINT_MULTIPLIER] mining points for discovery of an ore vent.")
+			generate_description(user)
 		return
 
 	if(tgui_alert(user, excavation_warning, "Begin defending ore vent?", list("Yes", "No")) != "Yes")
@@ -324,12 +325,16 @@
  * Ore_string is passed to examine().
  */
 /obj/structure/ore_vent/proc/generate_description(mob/user)
-	for(var/mineral_count in 1 to length(mineral_breakdown))
-		var/datum/material/resource = mineral_breakdown[mineral_count]
-		if(mineral_count == length(mineral_breakdown))
-			ore_string += "and " + span_bold(initial(resource.name)) + "."
-		else
-			ore_string += span_bold(initial(resource.name)) + ", "
+	ore_string = ""
+	var/list/mineral_names = list()
+	for(var/datum/material/resource as anything in mineral_breakdown)
+		mineral_names += span_bold(initial(resource.name))
+
+	if(!length(mineral_names))
+		ore_string += "<b>random ores</b>."
+	else
+		ore_string = "[english_list(mineral_names)]."
+
 	if(user)
 		ore_string += "\nThis vent was first discovered by [user]."
 /**
