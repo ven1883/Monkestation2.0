@@ -20,6 +20,7 @@
 		TRAIT_RESISTHIGHPRESSURE,
 		TRAIT_TOXIMMUNE,
 		TRAIT_NOBLOOD,
+		TRAIT_NO_DEBRAIN_OVERLAY,
 		TRAIT_VIRUSIMMUNE,
 		// monkestation edit: making androids closer to IPCs
 		TRAIT_REVIVES_BY_HEALING,
@@ -105,8 +106,3 @@
 	),
 	)
 	return to_add
-
-/datum/species/android/on_species_gain(mob/living/carbon/C)
-	. = ..()
-	// Androids don't eat, hunger or metabolise foods. Let's do some cleanup.
-	C.set_safe_hunger_level()

@@ -71,6 +71,8 @@ GLOBAL_PROTECT(href_token)
 	//only admins with +ADMIN start admined
 	if(protected)
 		GLOB.protected_admins[target] = src
+	try_give_profiling()
+	try_give_devtools()
 	if (force_active || (rank_flags() & R_AUTOADMIN))
 		activate()
 	else
@@ -110,8 +112,6 @@ GLOBAL_PROTECT(href_token)
 	GLOB.admin_datums -= target
 	QDEL_NULL(plane_debug)
 
-	if(owner)
-		dementor(owner)
 	deadmined = TRUE
 
 	var/client/client = owner || GLOB.directory[target]
@@ -197,7 +197,10 @@ GLOBAL_PROTECT(href_token)
 	if (!SSdbcore.IsConnected())
 		return null
 
-	var/datum/db_query/feedback_query = SSdbcore.NewQuery("SELECT feedback FROM [format_table_name("admin")] WHERE ckey = '[owner.ckey]'")
+	var/datum/db_query/feedback_query = SSdbcore.NewQuery(
+		"SELECT feedback FROM [format_table_name("admin")] WHERE ckey = :ckey",
+		list("ckey" = owner.ckey)
+	)
 
 	if(!feedback_query.Execute())
 		log_sql("Error retrieving feedback link for [src]")
@@ -206,7 +209,7 @@ GLOBAL_PROTECT(href_token)
 
 	if(!feedback_query.NextRow())
 		qdel(feedback_query)
-		cached_feedback_link = NO_FEEDBACK_LINK // monkestation edit: fallback to prevent issues
+		cached_feedback_link = NO_FEEDBACK_LINK
 		return null // no feedback link exists
 
 	cached_feedback_link = feedback_query.item[1] || NO_FEEDBACK_LINK
@@ -405,9 +408,9 @@ GLOBAL_PROTECT(href_token)
 	return combined_flags
 
 /datum/admins/proc/try_give_devtools()
-	if(!(rank_flags() & R_DEBUG) || owner.byond_version < 516)
+	if(isnull(owner) || !(rank_flags() & R_DEBUG))
 		return
-	winset(owner, null, "browser-options=byondstorage,find,refresh,devtools")
+	winset(owner, null, list("browser-options" = "+devtools"))
 
 /datum/admins/proc/try_give_profiling()
 	if (CONFIG_GET(flag/forbid_admin_profiling))
@@ -420,10 +423,15 @@ GLOBAL_PROTECT(href_token)
 		return
 
 	given_profiling = TRUE
-	world.SetConfig("APP/admin", owner.ckey, "role=admin")
+	world.SetConfig("APP/admin", owner?.ckey || target, "role=admin")
 
 /datum/admins/vv_edit_var(var_name, var_value)
 	return FALSE //nice try trialmin
+
+/datum/admins/can_vv_get(var_name)
+	if(var_name == NAMEOF(src, href_token))
+		return FALSE
+	return ..()
 
 /*
 checks if usr is an admin with at least ONE of the flags in rights_required. (Note, they don't need all the flags)
